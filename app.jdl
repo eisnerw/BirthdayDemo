@@ -1,0 +1,41 @@
+entity Category {
+  id Long,
+  categoryName String,
+  selected Boolean,
+  notCategorized Boolean,
+  focusType String,
+  focusId String,
+  jsonString String,
+  description String
+}
+
+entity Birthday {
+  id Long,
+  lname String,
+  fname String,
+  sign String,
+  dob Instant,
+  isAlive Boolean,
+}
+
+entity Ruleset {
+  id Long,
+  name String,
+  jsonString String	
+}
+
+relationship ManyToOne {
+  Birthday{categories} to Category
+}
+
+// Set pagination options
+paginate Birthday, Category, Ruleset with infinite-scroll
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

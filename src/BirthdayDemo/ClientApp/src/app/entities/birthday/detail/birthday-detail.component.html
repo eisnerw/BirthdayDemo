@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="birthday">
+      <h2 data-cy="birthdayDetailsHeading"><span>Birthday</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ birthday.id }}</span>
+        </dd>
+        <dt><span>Lname</span></dt>
+        <dd>
+          <span>{{ birthday.lname }}</span>
+        </dd>
+        <dt><span>Fname</span></dt>
+        <dd>
+          <span>{{ birthday.fname }}</span>
+        </dd>
+        <dt><span>Sign</span></dt>
+        <dd>
+          <span>{{ birthday.sign }}</span>
+        </dd>
+        <dt><span>Dob</span></dt>
+        <dd>
+          <span>{{ birthday.dob | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Is Alive</span></dt>
+        <dd>
+          <span>{{ birthday.isAlive }}</span>
+        </dd>
+        <dt><span>Categories</span></dt>
+        <dd>
+          <span *ngFor="let categories of birthday.categories; let last = last">
+            <a [routerLink]="['/category', categories?.id, 'view']">{{
+              categories.id
+            }}</a
+            >{{ last ? "" : ", " }}
+          </span>
+        </dd>
+      </dl>
+
+      <button
+        type="submit"
+        (click)="previousState()"
+        class="btn btn-info"
+        data-cy="entityDetailsBackButton"
+      >
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button
+        type="button"
+        [routerLink]="['/birthday', birthday.id, 'edit']"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

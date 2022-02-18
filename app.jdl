@@ -24,10 +24,9 @@ entity Ruleset {
   jsonString String	
 }
 
-relationship ManyToOne {
-  Birthday{categories} to Category
+relationship ManyToMany {
+  Birthday{categories} to Category{birthdays}
 }
-
 // Set pagination options
 paginate Birthday, Category, Ruleset with infinite-scroll
 

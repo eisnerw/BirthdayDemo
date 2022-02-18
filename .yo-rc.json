@@ -1,0 +1,56 @@
+{
+  "generator-jhipster": {
+    "blueprints": [
+      {
+        "name": "generator-jhipster-dotnetcore",
+        "version": "3.1.1"
+      }
+    ],
+    "otherModules": [
+      {
+        "name": "generator-jhipster-dotnetcore",
+        "version": "3.1.1"
+      }
+    ],
+    "baseName": "BirthdayDemo",
+    "namespace": "BirthdayDemo",
+    "applicationType": "monolith",
+    "jhipsterVersion": "7.1.0",
+    "skipClient": false,
+    "skipServer": false,
+    "skipUserManagement": false,
+    "skipCheckLengthOfIdentifier": false,
+    "skipFakeData": false,
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "testFrameworks": ["cypress"],
+    "pages": [],
+    "creationTimestamp": 1645211786910,
+    "cqrsEnabled": false,
+    "databaseType": "sqllite",
+    "authenticationType": "jwt",
+    "serverPort": "5000",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "enableTranslation": false,
+    "nativeLanguage": "en",
+    "devServerPort": 4200,
+    "clientPackageManager": "npm",
+    "clientThemeVariant": "",
+    "withAdminUi": true,
+    "packageName": "com.mycompany.myapp",
+    "cacheProvider": "ehcache",
+    "websocket": false,
+    "prodDatabaseType": "mysql",
+    "devDatabaseType": "h2Disk",
+    "searchEngine": false,
+    "buildTool": "maven",
+    "serviceDiscoveryType": false,
+    "enableHibernateCache": true,
+    "reactive": false,
+    "languages": ["en", "fr"],
+    "entities": ["Category", "Birthday", "Ruleset"],
+    "lastLiquibaseTimestamp": 1645212292000
+  }
+}

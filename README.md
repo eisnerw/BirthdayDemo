@@ -1,4 +1,4 @@
-# JHipsterDotNetCore6
+# BirthdayDemo
 
 This application was generated using JHipster 7.1.0 and JHipster .Net Core 3.1.1, you can find documentation and help at https://jhipsternet.readthedocs.io/en/latest/index.html and [https://www.jhipster.tech/documentation-archive/v7.1.0](https://www.jhipster.tech/documentation-archive/v7.1.0).
 
@@ -12,7 +12,7 @@ Before you can build this project, you must install and configure the following 
 After installing Node, you should be able to run the following command to install development tools.
 You will only need to run this command when dependencies change in [package.json](package.json).
 
-In ./src/JHipsterDotNetCore6/ClientApp run
+In ./src/BirthdayDemo/ClientApp run
 
     npm install
 
@@ -21,33 +21,33 @@ We use npm scripts and [Webpack][] as our build system.
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
-    dotnet run --verbosity normal --project ./src/JHipsterDotNetCore6/JHipsterDotNetCore6.csproj
-    npm --prefix ./src/JHipsterDotNetCore6/ClientApp start
+    dotnet run --verbosity normal --project ./src/BirthdayDemo/BirthdayDemo.csproj
+    npm --prefix ./src/BirthdayDemo/ClientApp start
 
 npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
 specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
 Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
 
-The `npm --prefix ./src/JHipsterDotNetCore6/ClientApp run` command will list all of the scripts available to run for this project.
+The `npm --prefix ./src/BirthdayDemo/ClientApp run` command will list all of the scripts available to run for this project.
 
 ### Managing dependencies
 
 For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
 
-    npm --prefix ./src/JHipsterDotNetCore6/ClientApp install --save --save-exact leaflet
+    npm --prefix ./src/BirthdayDemo/ClientApp install --save --save-exact leaflet
 
 To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
 
-    npm --prefix ./src/JHipsterDotNetCore6/ClientApp install --save-dev --save-exact @types/leaflet
+    npm --prefix ./src/BirthdayDemo/ClientApp install --save-dev --save-exact @types/leaflet
 
 Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
-Edit [JHipsterDotNetCore6/ClientApp/app/vendor.ts](JHipsterDotNetCore6/ClientApp/app/vendor.ts) file:
+Edit [BirthdayDemo/ClientApp/app/vendor.ts](BirthdayDemo/ClientApp/app/vendor.ts) file:
 
 ```
 import 'leaflet/dist/leaflet.js';
 ```
 
-Edit [JHipsterDotNetCore6/ClientApp/content/css/vendor.css](JHipsterDotNetCore6/ClientApp/content/css/vendor.css) file:
+Edit [BirthdayDemo/ClientApp/content/css/vendor.css](BirthdayDemo/ClientApp/content/css/vendor.css) file:
 
 ```
 @import '~leaflet/dist/leaflet.css';
@@ -65,19 +65,19 @@ For example, the following command:
 
 will generate few files:
 
-    create JHipsterDotNetCore6/ClientApp/src/app/my-component/my-component.component.html
-    create JHipsterDotNetCore6/ClientApp/src/app/my-component/my-component.component.ts
-    update JHipsterDotNetCore6/ClientApp/src/app/app.module.ts
+    create BirthdayDemo/ClientApp/src/app/my-component/my-component.component.html
+    create BirthdayDemo/ClientApp/src/app/my-component/my-component.component.ts
+    update BirthdayDemo/ClientApp/src/app/app.module.ts
 
 ## Building for production
 
-To build the artifacts and optimize the JHipsterDotNetCore6 application for production, run:
+To build the artifacts and optimize the BirthdayDemo application for production, run:
 
-    cd ./src/JHipsterDotNetCore6
-    rm -rf ./src/JHipsterDotNetCore6/wwwroot
-    dotnet publish --verbosity normal -c Release -o ./app/out ./JHipsterDotNetCore6.csproj
+    cd ./src/BirthdayDemo
+    rm -rf ./src/BirthdayDemo/wwwroot
+    dotnet publish --verbosity normal -c Release -o ./app/out ./BirthdayDemo.csproj
 
-The `./src/JHipsterDotNetCore6/app/out` directory will contain your application dll and its depedencies.
+The `./src/BirthdayDemo/app/out` directory will contain your application dll and its depedencies.
 
 This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
 
@@ -129,7 +129,7 @@ Manually :
 
 `dotnet tool install --global dotnet-sonarscanner`
 
-3. Run `` dotnet sonarscanner begin /d:sonar.login=admin /d:sonar.password=admin /k:"JHipsterDotNetCore6" /d:sonar.host.url="http://localhost:9001" /s:"`pwd`/SonarQube.Analysis.xml" ``
+3. Run `` dotnet sonarscanner begin /d:sonar.login=admin /d:sonar.password=admin /k:"BirthdayDemo" /d:sonar.host.url="http://localhost:9001" /s:"`pwd`/SonarQube.Analysis.xml" ``
 
 4. Build your application : `dotnet build`
 
@@ -154,13 +154,13 @@ Manually :
 You can also fully dockerize your application and all the services that it depends on. To achieve this, first build a docker image of your app by running:
 
 ```bash
-docker build -f ./Dockerfile-Back -t jhipsterdotnetcore6 .
+docker build -f ./Dockerfile-Back -t BirthdayDemo .
 ```
 
 Then run:
 
 ```bash
-docker run -p 8080:80 jhipsterdotnetcore6
+docker run -p 8080:80 BirthdayDemo
 ```
 
 Or you can simply run :
@@ -186,23 +186,3 @@ docker-compose -f .\docker\app.yml up
 [leaflet]: http://leafletjs.com/
 [definitelytyped]: http://definitelytyped.org/
 
-
-## Using gitpod
-```bash
-dotnet restore
-npm install -g generator-jhipster
-npm install -g yo
-npm install generator-jhipster@7.1.0
-change <TargetFramework>net5.0 changes to <TargetFramework>net6.0
-```
-
-## Generate jdl:
-```bash
-jhipster import-jdl app.jdl
-```
-
-##Reload JHipster:
-```bash
-npm install -g generator-jhipster
-npm i -g generator-jhipster-dotnetcore
-```

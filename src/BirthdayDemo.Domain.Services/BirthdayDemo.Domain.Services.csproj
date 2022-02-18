@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>BirthdayDemo.Domain.Services</RootNamespace>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JHipsterNet.Core"  />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"  />
+        <PackageReference Include="LanguageExt.Core"  />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BirthdayDemo.Infrastructure\BirthdayDemo.Infrastructure.csproj" />
+        <ProjectReference Include="..\BirthdayDemo.Domain\BirthdayDemo.Domain.csproj" />
+        <ProjectReference Include="..\BirthdayDemo.Crosscutting\BirthdayDemo.Crosscutting.csproj" />
+    </ItemGroup>
+
+</Project>

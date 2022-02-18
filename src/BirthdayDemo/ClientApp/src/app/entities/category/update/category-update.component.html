@@ -1,0 +1,150 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form
+      name="editForm"
+      role="form"
+      novalidate
+      (ngSubmit)="save()"
+      [formGroup]="editForm"
+    >
+      <h2 id="jhi-category-heading" data-cy="CategoryCreateUpdateHeading">
+        Create or edit a Category
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="id"
+            id="field_id"
+            data-cy="id"
+            formControlName="id"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_categoryName"
+            >Category Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="categoryName"
+            id="field_categoryName"
+            data-cy="categoryName"
+            formControlName="categoryName"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_selected"
+            >Selected</label
+          >
+          <input
+            type="checkbox"
+            class="form-check"
+            name="selected"
+            id="field_selected"
+            data-cy="selected"
+            formControlName="selected"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_notCategorized"
+            >Not Categorized</label
+          >
+          <input
+            type="checkbox"
+            class="form-check"
+            name="notCategorized"
+            id="field_notCategorized"
+            data-cy="notCategorized"
+            formControlName="notCategorized"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_focusType"
+            >Focus Type</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="focusType"
+            id="field_focusType"
+            data-cy="focusType"
+            formControlName="focusType"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_focusId">Focus Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="focusId"
+            id="field_focusId"
+            data-cy="focusId"
+            formControlName="focusId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_jsonString"
+            >Json String</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="jsonString"
+            id="field_jsonString"
+            data-cy="jsonString"
+            formControlName="jsonString"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_description"
+            >Description</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          id="cancel-save"
+          data-cy="entityCreateCancelButton"
+          class="btn btn-secondary"
+          (click)="previousState()"
+        >
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

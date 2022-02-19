@@ -7,13 +7,12 @@ import { RulesetDeleteDialogComponent } from "./delete/ruleset-delete-dialog.com
 import { RulesetRoutingModule } from "./route/ruleset-routing.module";
 
 @NgModule({
-  imports: [SharedModule, RulesetRoutingModule],
-  declarations: [
-    RulesetComponent,
-    RulesetDetailComponent,
-    RulesetUpdateComponent,
-    RulesetDeleteDialogComponent,
-  ],
-  entryComponents: [RulesetDeleteDialogComponent],
+    imports: [SharedModule, RulesetRoutingModule],
+    declarations: [
+        RulesetComponent,
+        RulesetDetailComponent,
+        RulesetUpdateComponent,
+        RulesetDeleteDialogComponent,
+    ]
 })
 export class RulesetModule {}

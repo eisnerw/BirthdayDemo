@@ -7,13 +7,12 @@ import { BirthdayDeleteDialogComponent } from "./delete/birthday-delete-dialog.c
 import { BirthdayRoutingModule } from "./route/birthday-routing.module";
 
 @NgModule({
-  imports: [SharedModule, BirthdayRoutingModule],
-  declarations: [
-    BirthdayComponent,
-    BirthdayDetailComponent,
-    BirthdayUpdateComponent,
-    BirthdayDeleteDialogComponent,
-  ],
-  entryComponents: [BirthdayDeleteDialogComponent],
+    imports: [SharedModule, BirthdayRoutingModule],
+    declarations: [
+        BirthdayComponent,
+        BirthdayDetailComponent,
+        BirthdayUpdateComponent,
+        BirthdayDeleteDialogComponent,
+    ]
 })
 export class BirthdayModule {}

@@ -24,9 +24,7 @@ namespace BirthdayDemo.Domain.Services
 
         public virtual async Task<IPage<Birthday>> FindAll(IPageable pageable)
         {
-            var page = await _birthdayRepository.QueryHelper()
-                .Include(birthday => birthday.Categories)
-                .GetPageAsync(pageable);
+            var page = await _birthdayRepository.GetPageAsync(pageable);
             return page;
         }
 

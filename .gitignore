@@ -316,3 +316,9 @@ _Pvt_Extensions
 
 #IntelliJ
 .idea/
+src/BirthdayDemo/ClientApp/package-lock.json
+
+src/BirthdayDemo/ClientApp/.angular/**
+src/BirthdayDemo/ClientApp/target/**
+
+

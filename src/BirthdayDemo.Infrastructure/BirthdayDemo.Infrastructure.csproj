@@ -13,6 +13,8 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"  />
         <PackageReference Include="Microsoft.EntityFrameworkCore"  />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools"  />
+        <PackageReference Include="JHipsterNet.Core"  />
+        <PackageReference Include="NEST" Version="7.13.0" />
     </ItemGroup>
 
     <ItemGroup>

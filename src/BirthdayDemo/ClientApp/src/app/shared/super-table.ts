@@ -76,8 +76,8 @@ import { TableState } from 'primeng/api';
                 <thead class="p-datatable-thead">
                     <ng-container *ngTemplateOutlet="headerGroupedTemplate||headerTemplate; context: {$implicit: columns}"></ng-container>
                 </thead>
-                <tbody class="p-datatable-tbody p-datatable-frozen-tbody" *ngIf="frozenValue||frozenBodyTemplate" [value]="frozenValue" [frozenRows]="true" [pTableBody]="columns" [pTableBodyTemplate]="frozenBodyTemplate" [frozen]="true"></tbody>
-                <tbody class="p-datatable-tbody" [value]="dataToRender" [pTableBody]="columns" [pTableBodyTemplate]="bodyTemplate"></tbody>
+                <tbody class="p-datatable-tbody p-datatable-frozen-tbody" *ngIf="frozenValue||frozenBodyTemplate" [value]="frozenValue" [frozenRows]="true" [super-table-body]="columns" [pTableBodyTemplate]="frozenBodyTemplate" [frozen]="true"></tbody>
+                <tbody class="p-datatable-tbody" [value]="dataToRender" [super-table-body]="columns" [pTableBodyTemplate]="bodyTemplate"></tbody>
                 <tfoot *ngIf="footerGroupedTemplate||footerTemplate" class="p-datatable-tfoot">
                     <ng-container *ngTemplateOutlet="footerGroupedTemplate||footerTemplate; context {$implicit: columns}"></ng-container>
                 </tfoot>
@@ -88,8 +88,8 @@ import { TableState } from 'primeng/api';
                     <thead #tableHeader class="p-datatable-thead">
                         <ng-container *ngTemplateOutlet="headerGroupedTemplate||headerTemplate; context: {$implicit: columns}"></ng-container>
                     </thead>
-                    <tbody class="p-datatable-tbody p-datatable-frozen-tbody" *ngIf="frozenValue||frozenBodyTemplate" [value]="frozenValue" [frozenRows]="true" [pTableBody]="columns" [pTableBodyTemplate]="bodyTemplate" [frozen]="true"></tbody>
-                    <tbody class="p-datatable-tbody" [value]="dataToRender" [pTableBody]="columns" [pTableBodyTemplate]="bodyTemplate"></tbody>
+                    <tbody class="p-datatable-tbody p-datatable-frozen-tbody" *ngIf="frozenValue||frozenBodyTemplate" [value]="frozenValue" [frozenRows]="true" [super-table-body]="columns" [pTableBodyTemplate]="bodyTemplate" [frozen]="true"></tbody>
+                    <tbody class="p-datatable-tbody" [value]="dataToRender" [super-table-body]="columns" [pTableBodyTemplate]="bodyTemplate"></tbody>
                     <tfoot *ngIf="footerGroupedTemplate||footerTemplate" class="p-datatable-tfoot">
                         <ng-container *ngTemplateOutlet="footerGroupedTemplate||footerTemplate; context {$implicit: columns}"></ng-container>
                     </tfoot>
@@ -119,10 +119,10 @@ import { TableState } from 'primeng/api';
         position: relative;
     }
     
-    .p-datatable table{
-        border-collapse:collapse;
-        table-layout:fixed;
-        width:100%
+    .p-datatable table {
+        border-collapse: collapse;
+        min-width: 100%;
+        table-layout: fixed;
     }
     
     .p-datatable .p-sortable-column {
@@ -191,18 +191,19 @@ import { TableState } from 'primeng/api';
         align-items: center;
     }
     
-    .p-datatable-scrollable .p-datatable-thead {
+    .p-datatable-scrollable > .p-datatable-wrapper > .p-datatable-table > .p-datatable-thead,
+    .p-datatable-scrollable > .p-datatable-wrapper > .p-datatable-virtual-scrollable-body > .cdk-virtual-scroll-content-wrapper > .p-datatable-table > .p-datatable-thead {
         position: sticky;
         top: 0;
         z-index: 1;
     }
     
-    .p-datatable-scrollable .p-datatable-frozen-tbody {
+    .p-datatable-scrollable > .p-datatable-wrapper > .p-datatable-table > .p-datatable-frozen-tbody {
         position: sticky;
         z-index: 1;
     }
     
-    .p-datatable-scrollable .p-datatable-tfoot {
+    .p-datatable-scrollable > .p-datatable-wrapper > .p-datatable-table > .p-datatable-tfoot {
         position: sticky;
         bottom: 0;
         z-index: 1;
@@ -286,7 +287,7 @@ import { TableState } from 'primeng/api';
         white-space: nowrap;
     }
     
-    .p-datatable-resizable .p-resizable-column {
+    .p-datatable-resizable .p-resizable-column:not(.p-frozen-column) {
         background-clip: padding-box;
         position: relative;
     }
@@ -345,7 +346,7 @@ import { TableState } from 'primeng/api';
         cursor: move;
     }
     
-    [super-ReorderableColumn] {
+    [pReorderableColumn] {
         cursor: move;
     }
     
@@ -407,7 +408,7 @@ import { TableState } from 'primeng/api';
     }
     
     .p-column-filter-add-button .p-button-label,
-    .p-column-filter-remove-button .p-button-label {f
+    .p-column-filter-remove-button .p-button-label {
         flex-grow: 0;
     }
     
@@ -430,14 +431,15 @@ import { TableState } from 'primeng/api';
     
     cdk-virtual-scroll-viewport {
         outline: 0 none;
-    }
-    `]
+    }    `]
 })
 export class SuperTable extends Table implements OnInit, AfterViewInit, AfterContentInit, BlockableUI, OnChanges {
 
     @Input() parent: SuperTable | null = null;
 
     @Input() frozenColumns = [];
+
+    @Input() frozenValue: any[] = [];    
 
     @Input() rowTrackBy = (index: number, item: any):any => item;
 
@@ -474,6 +476,13 @@ export class SuperTable extends Table implements OnInit, AfterViewInit, AfterCon
 
     constructor(public el: ElementRef, public zone: NgZone, public tableService: TableService, public cd: ChangeDetectorRef, public filterService: FilterService, public overlayService: OverlayService) {
         super(el, zone, tableService, cd, filterService, overlayService);
+    }
+
+    @Input() get value(): any[] {
+        return this._value;
+    }
+    set value(val: any[]) {
+        this._value = val;
     }
 
     ngOnInit(): any {
@@ -557,6 +566,10 @@ export class SuperTable extends Table implements OnInit, AfterViewInit, AfterCon
             }
             super.filter(value, field, matchMode);
         }
+    }
+
+    get dataToRender() {
+        return super.dataToRender;
     }
 
     doFilter(){
@@ -690,62 +703,28 @@ export class SuperTableBody extends TableBody implements OnDestroy {
     @Input("super-table-body") columns= [];
 
     @Input("pTableBodyTemplate") template: any;
+    @Input() get value(): any[] {
+        return this._value;
+    }
+    set value(val: any[]) {
+        this._value = val;
+        if (this.frozenRows) {
+            this.updateFrozenRowStickyPosition();
+        }
+
+        if (this.dt.scrollable && this.dt.rowGroupMode === 'subheader') {
+            this.updateFrozenRowGroupHeaderStickyPosition();
+        }
+    }
+
+    @Input() frozen: boolean = false;
+
+    @Input() frozenRows: boolean = false;  
+      
     constructor(public dt: SuperTable, public tableService: TableService, public cd: ChangeDetectorRef, el: ElementRef) {
         super(dt, tableService, cd, el);
     }
 }
-
-@Component({
-    selector: '[super-scrollable-view]',
-    template: `
-        <div #scrollHeader class="p-datatable-scrollable-header">
-            <div #scrollHeaderBox class="p-datatable-scrollable-header-box">
-                <table class="p-datatable-scrollable-header-table" [ngClass]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
-                    <ng-container *ngTemplateOutlet="frozen ? dt.frozenColGroupTemplate||dt.colGroupTemplate : dt.colGroupTemplate; context {$implicit: columns}"></ng-container>
-                    <thead class="p-datatable-thead">
-                        <ng-container *ngTemplateOutlet="frozen ? dt.frozenHeaderTemplate||dt.headerTemplate : dt.headerTemplate; context {$implicit: columns}"></ng-container>
-                    </thead>
-                    <tbody class="p-datatable-tbody">
-                        <ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="dt.frozenValue" [ngForTrackBy]="dt.rowTrackBy">
-                            <ng-container *ngTemplateOutlet="dt.frozenRowsTemplate; context: {$implicit: rowData, rowIndex: rowIndex, columns: columns}"></ng-container>
-                        </ng-template>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <ng-container *ngIf="!dt.virtualScroll; else virtualScrollTemplate">
-            <div #scrollBody class="p-datatable-scrollable-body" [ngStyle]="{'max-height': dt.scrollHeight !== 'flex' ? scrollHeight : undefined, 'overflow-y': !frozen && dt.scrollHeight ? 'scroll' : undefined}">
-                <table #scrollTable [class]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
-                    <ng-container *ngTemplateOutlet="frozen ? dt.frozenColGroupTemplate||dt.colGroupTemplate : dt.colGroupTemplate; context {$implicit: columns}"></ng-container>
-                    <tbody class="p-datatable-tbody" [super-table-body]="columns" [pTableBodyTemplate]="frozen ? dt.frozenBodyTemplate||dt.bodyTemplate : dt.bodyTemplate" [frozen]="frozen"></tbody>
-                </table>
-                <div #scrollableAligner style="background-color:transparent" *ngIf="frozen"></div>
-            </div>
-        </ng-container>
-        <ng-template #virtualScrollTemplate>
-            <cdk-virtual-scroll-viewport [itemSize]="dt.virtualRowHeight" tabindex="0" [style.height]="dt.scrollHeight !== 'flex' ? scrollHeight : undefined"
-                    [minBufferPx]="dt.minBufferPx" [maxBufferPx]="dt.maxBufferPx" (scrolledIndexChange)="onScrollIndexChange($event)" class="p-datatable-virtual-scrollable-body">
-                <table #scrollTable [class]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
-                    <ng-container *ngTemplateOutlet="frozen ? dt.frozenColGroupTemplate||dt.colGroupTemplate : dt.colGroupTemplate; context {$implicit: columns}"></ng-container>
-                    <tbody class="p-datatable-tbody" [super-table-body]="columns" [pTableBodyTemplate]="frozen ? dt.frozenBodyTemplate||dt.bodyTemplate : dt.bodyTemplate" [frozen]="frozen"></tbody>
-                </table>
-                <div #scrollableAligner style="background-color:transparent" *ngIf="frozen"></div>
-            </cdk-virtual-scroll-viewport>
-        </ng-template>
-        <div #scrollFooter class="p-datatable-scrollable-footer">
-            <div #scrollFooterBox class="p-datatable-scrollable-footer-box">
-                <table class="p-datatable-scrollable-footer-table" [ngClass]="dt.tableStyleClass" [ngStyle]="dt.tableStyle">
-                    <ng-container *ngTemplateOutlet="frozen ? dt.frozenColGroupTemplate||dt.colGroupTemplate : dt.colGroupTemplate; context {$implicit: columns}"></ng-container>
-                    <tfoot class="p-datatable-tfoot">
-                        <ng-container *ngTemplateOutlet="frozen ? dt.frozenFooterTemplate||dt.footerTemplate : dt.footerTemplate; context {$implicit: columns}"></ng-container>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    `,
-    changeDetection: ChangeDetectionStrategy.Default,
-    encapsulation: ViewEncapsulation.None
-})
 
 @Directive({
     selector: '[super-SortableColumn]',
@@ -1124,8 +1103,8 @@ export class SuperReorderableRow extends ReorderableRow implements AfterViewInit
         </ng-container>
         <ng-template #builtInElement>
             <ng-container [ngSwitch]="type">
-                <input *ngSwitchCase="'text'" type="text" pInputText [value]="filterConstraint?.value" (input)="onModelChange($event.target.value)"
-                    (keydown.enter)="onTextInputEnterKeyDown($event)" [attr.placeholder]="placeholder">
+                <!--input *ngSwitchCase="'text'" type="text" pInputText [value]="filterConstraint?.value" (input)="onModelChange($event.target.value)"
+                    (keydown.enter)="onTextInputEnterKeyDown($event)" [attr.placeholder]="placeholder"-->
                 <p-inputNumber *ngSwitchCase="'numeric'" [ngModel]="filterConstraint?.value" (ngModelChange)="onModelChange($event)" (onKeyDown)="onNumericInputKeyDown($event)" [showButtons]="true"
                     [minFractionDigits]="minFractionDigits" [maxFractionDigits]="maxFractionDigits" [prefix]="prefix" [suffix]="suffix" [placeholder]="placeholder"
                     [mode]="currency ? 'currency' : 'decimal'" [locale]="locale" [localeMatcher]="localeMatcher" [currency]="currency" [currencyDisplay]="currencyDisplay" [useGrouping]="useGrouping"></p-inputNumber>
@@ -1162,8 +1141,8 @@ export class SuperColumnFilterFormElement extends ColumnFilterFormElement implem
     selector: 'super-columnFilter',
     template: `
         <div class="p-column-filter" [ngClass]="{'p-column-filter-row': display === 'row', 'p-column-filter-menu': display === 'menu'}">
-            <p-columnFilterFormElement *ngIf="display === 'row'" class="p-fluid" [type]="type" [field]="field" [filterConstraint]="dt.filters[field]" [filterTemplate]="filterTemplate" [placeholder]="placeholder" [minFractionDigits]="minFractionDigits" [maxFractionDigits]="maxFractionDigits" [prefix]="prefix" [suffix]="suffix"
-                                    [locale]="locale"  [localeMatcher]="localeMatcher" [currency]="currency" [currencyDisplay]="currencyDisplay" [useGrouping]="useGrouping"></p-columnFilterFormElement>
+            <super-columnFilterFormElement *ngIf="display === 'row'" class="p-fluid" [type]="type" [field]="field" [filterConstraint]="dt.filters[field]" [filterTemplate]="filterTemplate" [placeholder]="placeholder" [minFractionDigits]="minFractionDigits" [maxFractionDigits]="maxFractionDigits" [prefix]="prefix" [suffix]="suffix"
+                                    [locale]="locale"  [localeMatcher]="localeMatcher" [currency]="currency" [currencyDisplay]="currencyDisplay" [useGrouping]="useGrouping"></super-columnFilterFormElement>
             <button #icon *ngIf="showMenuButton" type="button" class="p-column-filter-menu-button p-link" aria-haspopup="true" [attr.aria-expanded]="overlayVisible"
                 [ngClass]="{'p-column-filter-menu-button-open': overlayVisible, 'p-column-filter-menu-button-active': hasFilter()}"
                 (click)="toggleMenu()" (keydown)="onToggleButtonKeyDown($event)"><span class="pi pi-filter-icon pi-filter"></span></button>
@@ -1184,9 +1163,9 @@ export class SuperColumnFilterFormElement extends ColumnFilterFormElement implem
                     <div class="p-column-filter-constraints">
                         <div *ngFor="let fieldConstraint of fieldConstraints; let i = index" class="p-column-filter-constraint">
                             <p-dropdown  *ngIf="showMatchModes && matchModes" [options]="matchModes" [ngModel]="fieldConstraint.matchMode" (ngModelChange)="onMenuMatchModeChange($event, fieldConstraint)" styleClass="p-column-filter-matchmode-dropdown"></p-dropdown>
-                            <p-columnFilterFormElement [type]="type" [field]="field" [filterConstraint]="fieldConstraint" [filterTemplate]="filterTemplate" [placeholder]="placeholder"
+                            <super-columnFilterFormElement [type]="type" [field]="field" [filterConstraint]="fieldConstraint" [filterTemplate]="filterTemplate" [placeholder]="placeholder"
                             [minFractionDigits]="minFractionDigits" [maxFractionDigits]="maxFractionDigits" [prefix]="prefix" [suffix]="suffix"
-                            [locale]="locale"  [localeMatcher]="localeMatcher" [currency]="currency" [currencyDisplay]="currencyDisplay" [useGrouping]="useGrouping"></p-columnFilterFormElement>
+                            [locale]="locale"  [localeMatcher]="localeMatcher" [currency]="currency" [currencyDisplay]="currencyDisplay" [useGrouping]="useGrouping"></super-columnFilterFormElement>
                             <div>
                                 <button *ngIf="showRemoveIcon" type="button" pButton icon="pi pi-trash" class="p-column-filter-remove-button p-button-text p-button-danger p-button-sm" (click)="removeConstraint(fieldConstraint)" pRipple [label]="removeRuleButtonLabel"></button>
                             </div>

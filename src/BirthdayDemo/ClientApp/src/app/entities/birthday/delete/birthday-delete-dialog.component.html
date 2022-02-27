@@ -1,7 +1,7 @@
 <form
   *ngIf="birthday"
   name="deleteForm"
-  (ngSubmit)="confirmDelete(birthday.id!)"
+  (ngSubmit)="confirmDelete(birthday?.id!)"
 >
   <div class="modal-header">
     <h4 class="modal-title" data-cy="birthdayDeleteDialogHeading">

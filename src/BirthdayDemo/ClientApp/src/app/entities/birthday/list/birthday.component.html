@@ -28,93 +28,111 @@
 
   <jhi-alert></jhi-alert>
 
-  <div
-    class="alert alert-warning"
-    id="no-result"
-    *ngIf="birthdays?.length === 0"
-  >
-    <span>No birthdays found</span>
-  </div>
-
-  <div
-    class="table-responsive"
-    id="entities"
-    *ngIf="birthdays && birthdays.length > 0"
-  >
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
+  <ng-container *ngIf="rowData | async as birthday">
+    <p-confirmPopup></p-confirmPopup>
+    <p-messages></p-messages>
+    <super-table #birthdays [value]="birthday" 
+      [resizableColumns]="true" 
+      [globalFilterFields]="['lname', 'fname', 'sign']" 
+      dataKey="id" 
+      [(contextMenuSelection)]="contextSelectedRow" 
+      selectionMode="multiple" 
+      [(selection)]="checkboxSelectedRows"
+      [expandedRowKeys]="expandedRows"
+    >
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+          <button pButton class="p-button-outlined" style="margin-top:9px; height: 20px; width: 20px;" icon="pi pi-refresh" (click)="refreshData()"></button>
+          &nbsp;
+          <span *ngIf="checkboxSelectedRows.length > 2" style="font-weight: 100; padding-top: 10px;"><i>&nbsp;&nbsp;&nbsp;Too many rows selected</i></span>
+          <span class="p-input-icon-left p-ml-auto">
+            <i class="pi pi-search"></i>
+            <input
+              #searchInput
+              pInputText
+              type="text"
+              (input)="birthdays.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
         <tr>
-          <th scope="col"><span>Id</span></th>
-          <th scope="col"><span>Lname</span></th>
-          <th scope="col"><span>Fname</span></th>
-          <th scope="col"><span>Sign</span></th>
-          <th scope="col"><span>Dob</span></th>
-          <th scope="col"><span>Is Alive</span></th>
-          <th scope="col"><span>Categories</span></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let birthday of birthdays; trackBy: trackId"
-          data-cy="entityTable"
-        >
-          <td>
-            <a [routerLink]="['/birthday', birthday.id, 'view']">{{
-              birthday.id
-            }}</a>
-          </td>
-          <td>{{ birthday.lname }}</td>
-          <td>{{ birthday.fname }}</td>
-          <td>{{ birthday.sign }}</td>
-          <td>{{ birthday.dob | formatMediumDatetime }}</td>
-          <td>{{ birthday.isAlive }}</td>
-          <td>
-            <span
-              *ngFor="let categories of birthday.categories; let last = last"
-            >
-              <a
-                class="form-control-static"
-                [routerLink]="['/category', categories.id, 'view']"
-                >{{ categories.id }}</a
-              >{{ last ? "" : ", " }}
-            </span>
-          </td>
-          <td class="text-right">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/birthday', birthday.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
-
-              <button
-                type="submit"
-                [routerLink]="['/birthday', birthday.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
-
-              <button
-                type="submit"
-                (click)="delete(birthday)"
-                class="btn btn-danger btn-sm"
-                data-cy="entityDeleteButton"
-              >
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
+          <th style="width: 2rem">
+            <super-tableHeaderCheckbox></super-tableHeaderCheckbox>
+          </th>
+          <th super-ResizableColumn [super-SortableColumn]="'lname'">
+            <div class="p-d-flex p-jc-between p-ai-center">
+              Name
+              <super-sortIcon [field]="'lname'"></super-sortIcon>
+              <super-columnFilter type="text" field="lname" display="menu"></super-columnFilter>
             </div>
-          </td>
+          </th>
+          <th super-ResizableColumn [super-SortableColumn]="'fname'">
+            <div class="p-d-flex p-jc-between p-ai-center">
+              First
+              <super-sortIcon [field]="'fname'"></super-sortIcon>
+              <super-columnFilter type="text" field="fname" display="menu"></super-columnFilter>
+            </div>
+          </th>
+          <th super-ResizableColumn [super-SortableColumn]="'dob'">
+            <div class="p-d-flex p-jc-between p-ai-center">
+              Date of Birth
+              <super-sortIcon [field]="'dob'"></super-sortIcon>
+              <super-columnFilter type="date" field="dob" display="menu"></super-columnFilter>
+            </div>
+          </th>
+          <th super-ResizableColumn [super-SortableColumn]="'sign'">
+            <div class="p-d-flex p-jc-between p-ai-center">
+              Sign
+              <super-sortIcon [field]="'sign'"></super-sortIcon>
+              <super-columnFilter type="text" field="sign" display="menu"></super-columnFilter>
+            </div>
+          </th>
+          <th>Alive?</th>
+          <th style="width:25px;font-weight: 700;"><span class="p-button-icon pi pi-chevron-right" aria-hidden="true"></span></th>
         </tr>
-      </tbody>
-    </table>
-  </div>
+      </ng-template>
+      <ng-template pTemplate="body" let-birthday let-expanded="expanded">
+        <tr [super-ContextMenuRow]="birthday">
+          <td><super-tableCheckbox [value]="birthday"></super-tableCheckbox></td>
+          <td #tt pTooltip="{{ birthday.lname }}" [tooltipDisabled]='false' style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{ birthday.lname }}</td>
+          <td>{{ birthday.fname }}</td>
+          <td>{{ birthday.dob | date: 'MM/dd/yyyy' }}</td>
+          <td>{{ birthday.sign }}</td>
+          <td *ngIf="birthday.isAlive">Yes</td>
+          <td *ngIf="!birthday.isAlive">No</td>
+          <td>
+            <button type="button" style="width:2rem" pButton pRipple [super-RowToggler]="birthday" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+          </td>          
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-birthday>
+        <td></td>
+        <td colspan="6">
+          <h3>{{ birthday.fname }} {{birthday.lname}}</h3>
+          <iframe style="width:100%; height:100%;" 
+            [src]= "sanitizer.bypassSecurityTrustResourceUrl('https://localhost:5001/api/birthdays/text/'+birthday.id)">"
+          </iframe>
+        </td>
+      </ng-template>
+    </super-table>
+    <p-dialog header="{{ birthdayDialogTitle }}" [(visible)]="bDisplayBirthday" [style]="{width: '50vw'}" [baseZIndex]="10000">
+      <iframe style="width:100%; height:100%;border-width: 0;" 
+        [src]= "sanitizer.bypassSecurityTrustResourceUrl('https://localhost:5001/api/birthdays/text/'+birthdayDialogId)">
+      </iframe>
+      <ng-template pTemplate="footer">
+      </ng-template>      
+    </p-dialog>
+
+
+    <div class="alert alert-light" id="no-result" *ngIf="loading">
+      <span >loading ...</span>
+    </div>
+  </ng-container>
+  <p-scrollTop
+    target="parent"
+    icon="pi pi-arrow-up"
+  ></p-scrollTop>
 </div>

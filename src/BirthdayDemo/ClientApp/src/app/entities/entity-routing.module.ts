@@ -12,7 +12,7 @@ import { RouterModule } from "@angular/router";
       },
       {
         path: "birthday",
-        data: { pageTitle: "Birthdays" },
+        data: { pageTitle: "Birthdays", defaultSort: "id,asc" },
         loadChildren: () =>
           import("./birthday/birthday.module").then((m) => m.BirthdayModule),
       },
@@ -30,7 +30,7 @@ import { RouterModule } from "@angular/router";
       },
       {
         path: "birthday",
-        data: { pageTitle: "Birthdays" },
+        data: { pageTitle: "Birthdays", defaultSort: "id,asc" },
         loadChildren: () =>
           import("./birthday/birthday.module").then((m) => m.BirthdayModule),
       },

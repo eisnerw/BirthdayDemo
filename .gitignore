@@ -2,6 +2,10 @@
 **/.terraform/*
 *.lock.*
 
+**/target
+*.pack
+
+
 # .tfstate files
 *.tfstate
 *.tfstate.*

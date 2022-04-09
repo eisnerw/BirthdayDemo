@@ -4,6 +4,29 @@ This application was generated using JHipster 7.1.0 and JHipster .Net Core 3.1.1
 
 ## Development
 
+Gitpod issues:
+    mkdir -p /workspace/dotnet && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel Current --install-dir /workspace/dotnet
+    export DOTNET_ROOT=/workspace/dotnet && export PATH=$PATH:/workspace/dotnet
+
+    npm config set save-exact=true
+    
+    npm install @angular-devkit/build-angular
+
+    rm -rf node_modules/
+    npm i primeng@13.1.0
+
+
+    npm install -g @angular/cli@latest
+    npm update 
+    npm install primeng --save
+    npm install primeicons --save
+    npm install font-awesome --save
+    npm i @angular/animations --save
+    npm i @angular/router --save
+    npm i @angular/cdk --save
+    npm i @ngtools/webpack
+
+
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
 1. [Node.js][]: We use Node to run a development web server and build the project.

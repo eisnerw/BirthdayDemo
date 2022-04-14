@@ -7,12 +7,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBirthday } from "../birthday.model";
 
-import { ITEMS_PER_PAGE } from "app/config/pagination.constants";
+import { ITEMS_PER_PAGE } from "../../../../app/config/pagination.constants";
 import { BirthdayService } from "../service/birthday.service";
 import { CategoryService } from "../../category/service/category.service";
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
-import { SuperTable } from 'app/shared/super-table';
+import { SuperTable } from '../../../shared/super-table';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DomSanitizer } from "@angular/platform-browser";
 import { ConfirmationService, PrimeNGConfig} from "primeng/api";
@@ -155,16 +155,17 @@ export class BirthdayComponent implements OnInit {
     }
   }
 
-  setMenu(birthday : any):void{
-    this.menuItems[0].label = `Select action for ${birthday.fname} ${birthday.lname}`;
+  setMenu(birthdayx : IBirthday | null):void{
+    const birthday = birthdayx as IBirthday;
+    this.menuItems[0].label = `Select action for ${birthday.fname as string} ${birthday.lname as string}`;
     let alternate : any = null;
     this.chipSelectedRows.forEach((selectedRow: IBirthday)=>{
       if (selectedRow.id !== birthday.id){
-        alternate = selectedRow as IBirthday;
+        alternate = selectedRow;
       }
     });
     if (alternate != null){
-      this.menuItems[1].label = `Relate to ${alternate.fname} ${alternate.lname}`;
+      this.menuItems[1].label = `Relate to ${alternate.fname as string} ${alternate.lname as string}`;
     } else {
       this.menuItems[1].label = `Select another birthday to relate`;
     }
@@ -178,7 +179,7 @@ export class BirthdayComponent implements OnInit {
     let mouseOver : any = null;
     let chipsMouseOut : any = null;
     let bMouseOnMenu = false;
-    const hideMenu = ()=>{
+    const hideMenu = ():void=>{
       menu.hide();
       chipsEl.removeEventListener('mouseout', chipsMouseOut);
       menuEl.removeEventListener('mouseleave', hideMenu);
@@ -296,9 +297,9 @@ export class BirthdayComponent implements OnInit {
           command: ()=>{
             setTimeout(()=>{
               this.selectedCategories.length = 0;
-              const selectedRow = this.contextSelectedRow;
-              this.birthdayDialogId = selectedRow ? selectedRow?.id?.toString() : "";
-              this.birthdayDialogTitle = selectedRow ? selectedRow?.fname + " " + selectedRow?.lname : "";
+              const selectedRow = this.contextSelectedRow as IBirthday;
+              this.birthdayDialogId = selectedRow.id;
+              this.birthdayDialogTitle = (selectedRow.fname as string) + " " + (selectedRow.lname as string);
               this.categoryService
               .query({
                 page: 0,
@@ -318,8 +319,8 @@ export class BirthdayComponent implements OnInit {
           icon: 'pi pi-book',
           command: ()=>{
             setTimeout(()=>{
-              this.birthdayDialogId = this.contextSelectedRow ? this.contextSelectedRow?.id?.toString() : "";
-              this.birthdayDialogTitle = this.contextSelectedRow ? this.contextSelectedRow?.lname as string : "";
+              this.birthdayDialogId = this.contextSelectedRow ? (this.contextSelectedRow.id as unknown as string) : "";
+              this.birthdayDialogTitle = this.contextSelectedRow ? this.contextSelectedRow.lname as string : "";
               this.bDisplayBirthday = true;
             }, 0);
           },
@@ -355,7 +356,7 @@ export class BirthdayComponent implements OnInit {
     const totalItems = Number(headers.get('X-Total-Count'));
     this.selectedCategories.length = 0;
     this.categories.length = 0;
-    if (totalItems > 0 || (data && data?.length > 0)){
+    if (totalItems > 0 || (data && data.length > 0)){
       data?.forEach(r=>{
         this.categories.push(r);
         if (r.selected){
@@ -377,7 +378,7 @@ export class BirthdayComponent implements OnInit {
     this.messageService.add({severity: 'success', summary: 'Row Deleted', detail: selectedRowType});
   }
 
-  protected handleNavigation(): void {
+  handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
       const page = params.get('page');
       const pageNumber = page !== null  ? +page : 1;
@@ -391,10 +392,6 @@ export class BirthdayComponent implements OnInit {
         this.loadAll();
       }
     }).subscribe();
-  }
-
-  trackId(index: number, item: IBirthday): number {
-    return item.id!;
   }
 
   /* delete(birthday: IBirthday): void {
@@ -417,6 +414,6 @@ export class BirthdayComponent implements OnInit {
   }
 
   protected onError(): void {
-    this.ngbPaginationPage = this.page ?? 1;
+    this.ngbPaginationPage = this.page ? this.page : 1;
   }
 }

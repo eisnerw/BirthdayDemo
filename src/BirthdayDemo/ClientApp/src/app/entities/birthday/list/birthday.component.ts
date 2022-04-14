@@ -57,7 +57,7 @@ export class BirthdayComponent implements OnInit {
 
   checkboxSelectedRows : IBirthday[] = [];
 
-  chipSelectedRows : object[] = [];
+  chipSelectedRows : any = [];
 
   bDisplaySearchDialog = false;
 
@@ -158,8 +158,8 @@ export class BirthdayComponent implements OnInit {
   setMenu(birthday : any):void{
     this.menuItems[0].label = `Select action for ${birthday.fname} ${birthday.lname}`;
     let alternate : any = null;
-    this.chipSelectedRows.forEach((selectedRow)=>{
-      if ((selectedRow as IBirthday).id !== birthday.id){
+    this.chipSelectedRows.forEach((selectedRow: IBirthday)=>{
+      if (selectedRow.id !== birthday.id){
         alternate = selectedRow as IBirthday;
       }
     });

@@ -9,6 +9,7 @@ namespace BirthdayDemo.Domain
     [Table("birthday")]
     public class Birthday : BaseEntity<long>
     {
+        public string ElasticId { get; set;}
         public string Lname { get; set; }
         public string Fname { get; set; }
         public string Sign { get; set; }

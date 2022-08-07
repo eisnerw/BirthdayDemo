@@ -68,12 +68,26 @@ namespace BirthdayDemo.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BirthdayDto>>> GetAllBirthdays(IPageable pageable)
-        {
+       {
             _log.LogDebug("REST request to get a page of Birthdays");
             var result = await _birthdayService.FindAll(pageable);
             var page = new Page<BirthdayDto>(result.Content.Select(entity => _mapper.Map<BirthdayDto>(entity)).ToList(), pageable, result.TotalElements);
             return Ok(((IPage<BirthdayDto>)page).Content).WithHeaders(page.GeneratePaginationHttpHeaders());
         }
+
+        [AllowAnonymous]
+        [HttpGet("text/{id}")]
+        public async Task<IActionResult> GetBirthdayText([FromRoute] string id)
+        {
+            _log.LogDebug($"REST request to get text from Birthday : {id}");
+            string ret = await _birthdayService.FindOneText(id);
+            return new ContentResult()
+            {
+                Content = ret,
+                ContentType = "text/html",
+            };
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBirthday([FromRoute] long id)

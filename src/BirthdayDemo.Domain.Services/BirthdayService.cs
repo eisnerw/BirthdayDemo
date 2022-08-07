@@ -41,5 +41,21 @@ namespace BirthdayDemo.Domain.Services
             await _birthdayRepository.DeleteByIdAsync(id);
             await _birthdayRepository.SaveChangesAsync();
         }
+
+        public virtual async Task<string> FindOneText(string id)
+        {
+            var result = await _birthdayRepository
+            /* .QueryHelper()
+                .Include(birthday => birthday.Lname)
+                .Include(birthday => birthday.Fname)
+                .Include(birthday => birthday.Dob)
+                .Include(birthday => birthday.Sign)
+                .Include(birthday => birthday.IsAlive)
+                ._birthdayRepository
+            */
+            .GetOneTextAsync(id);
+            return result;
+        }
+
     }
 }

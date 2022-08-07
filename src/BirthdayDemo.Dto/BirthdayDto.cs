@@ -16,6 +16,7 @@ namespace BirthdayDemo.Dto
         public string Sign { get; set; }
         public DateTime Dob { get; set; }
         public bool? IsAlive { get; set; }
+        public string ElasticId { get; set; }
 
         public IList<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
 

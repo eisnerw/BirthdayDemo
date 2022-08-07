@@ -59,6 +59,7 @@ namespace BirthdayDemo.Infrastructure.Data.Repositories
                 }
                 content.Add(new Birthday{
                     Id = Id++,
+                    ElasticId = hit.Id,
                     Lname = hit.Source.lname,
                     Fname = hit.Source.fname,
                     Dob = hit.Source.dob,
@@ -71,6 +72,11 @@ namespace BirthdayDemo.Infrastructure.Data.Repositories
             JHipsterNet.Core.Pagination.Page<Birthday> page = new Page<Birthday>(content, pageable, content.Count);
             return page;
         }
+        public async Task<string> GetOneTextAsync(object id)
+        {
+            var hit = await elastic.GetAsync<ElasticBirthday>((string)id);
+            return hit.Source.wikipedia;
+        }
         private class ElasticBirthday
         {
             public string Id { get; set; }
@@ -82,7 +88,6 @@ namespace BirthdayDemo.Infrastructure.Data.Repositories
             public string[] categories {get; set; }
             public string wikipedia {get; set; } 
         }        
-
     }
     
 }

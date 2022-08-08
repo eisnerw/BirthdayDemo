@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-//import { JhiEventManager } from 'ng-jhipster';
+// import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBirthday } from "../birthday.model";
@@ -82,7 +82,7 @@ export class BirthdayComponent implements OnInit {
     protected categoryService: CategoryService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    //protected eventManager: JhiEventManager,
+    // protected eventManager: JhiEventManager,
     protected modalService: NgbModal,
     protected messageService: MessageService,
     public sanitizer:DomSanitizer,
@@ -90,25 +90,27 @@ export class BirthdayComponent implements OnInit {
     private primeNGConfig : PrimeNGConfig,
   ) {}
 
-  loadAll(): void {
-    this.isLoading = true;
-
-    this.birthdayService.query().subscribe(
-      (res: HttpResponse<IBirthday[]>) => {
-        this.birthdays = res.body ?? [];
-        this.rowData = of(this.birthdays);
-        this.loading = false;
-      },
-      () => {
-        this.isLoading = false;
-      }
-    );
+  loadPage(page?: number, dontNavigate?: boolean): void {
+    // const pageToLoad: number = page ?? this.page ?? 1;
+    const pageToLoad = 1;
+    this.loading = true;
+    this.birthdayService
+      .postQuery({
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+        query: this.databaseQuery
+      })
+      .subscribe(
+        (res: any) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        () => this.onError()
+      );
   }
 
   refreshData(): void {
     this.birthdays =[];
     this.rowData = of(this.birthdays);
-    this.loadAll();
+    this.loadPage();
   }
 
   clearFilters(table: SuperTable, searchInput: any): void{
@@ -378,6 +380,12 @@ export class BirthdayComponent implements OnInit {
     this.messageService.add({severity: 'success', summary: 'Row Deleted', detail: selectedRowType});
   }
 
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      // this.eventManager.destroy(this.eventSubscriber);
+    }
+  }
+
   handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
       const page = params.get('page');
@@ -389,7 +397,7 @@ export class BirthdayComponent implements OnInit {
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
         this.ascending = ascending;
-        this.loadAll();
+        this.loadPage();
       }
     }).subscribe();
   }
@@ -411,6 +419,27 @@ export class BirthdayComponent implements OnInit {
     const result = ['categoryName,asc'];
     result.push('id');
     return result;
+  }
+
+  protected onSuccess(data: IBirthday[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+    this.totalItems = Number(headers.get('X-Total-Count'));
+    this.page = page;
+    if (navigate) {
+      this.router.navigate(['/birthday'], {
+        queryParams: {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+        },
+      });
+    }
+    this.birthdays = data ?? [];
+    this.ngbPaginationPage = this.page;
+    
+    if (data) {
+      this.rowData = of(this.birthdays);
+    }
+    this.loading = false;
   }
 
   protected onError(): void {

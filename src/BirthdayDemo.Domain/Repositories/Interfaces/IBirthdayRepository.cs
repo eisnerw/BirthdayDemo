@@ -1,9 +1,21 @@
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using JHipsterNet.Core.Pagination;
 
 namespace BirthdayDemo.Domain.Repositories.Interfaces
 {
     public interface IBirthdayRepository : IGenericRepository<Birthday, long>
     {
-        Task<string> GetOneTextAsync(object id);        
+        Task<Birthday> GetOneAsync(object id, bool bText);
+
+        Task<string> GetOneTextAsync(object id);
+
+        Task<List<Birthday>> GetReferencesFromAsync(string id);
+
+        Task<List<Birthday>> GetReferencesToAsync(string id);
+
+        Task<List<string>> GetUniqueFieldValuesAsync(string field);
+
+        Task<IPage<Birthday>> GetPageFilteredAsync(IPageable pageable, string query);
     }
 }

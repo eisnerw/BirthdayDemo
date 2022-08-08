@@ -15,7 +15,8 @@ namespace BirthdayDemo.Domain
         public string Sign { get; set; }
         public DateTime Dob { get; set; }
         public bool? IsAlive { get; set; }
-        public IList<Category> Categories { get; set; } = new List<Category>();
+        public string Text { get; set; }
+        public List<Category> Categories { get; set; } = new List<Category>();
 
         // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 

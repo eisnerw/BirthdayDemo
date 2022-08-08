@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using JHipsterNet.Core.Pagination;
 using BirthdayDemo.Domain.Services.Interfaces;
 using BirthdayDemo.Domain.Repositories.Interfaces;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayDemo.Domain.Services
@@ -22,24 +23,18 @@ namespace BirthdayDemo.Domain.Services
             return birthday;
         }
 
-        public virtual async Task<IPage<Birthday>> FindAll(IPageable pageable)
+        public virtual async Task<IPage<Birthday>> FindAll(IPageable pageable, string query)
         {
-            var page = await _birthdayRepository.GetPageAsync(pageable);
+            var page = await _birthdayRepository.GetPageFilteredAsync(pageable, query);
             return page;
         }
 
-        public virtual async Task<Birthday> FindOne(long id)
+        public virtual async Task<Birthday> FindOne(string id)
         {
             var result = await _birthdayRepository.QueryHelper()
                 .Include(birthday => birthday.Categories)
-                .GetOneAsync(birthday => birthday.Id == id);
+                .GetOneAsync(birthday => birthday.ElasticId == id);
             return result;
-        }
-
-        public virtual async Task Delete(long id)
-        {
-            await _birthdayRepository.DeleteByIdAsync(id);
-            await _birthdayRepository.SaveChangesAsync();
         }
 
         public virtual async Task<string> FindOneText(string id)
@@ -57,5 +52,30 @@ namespace BirthdayDemo.Domain.Services
             return result;
         }
 
+        public virtual async Task Delete(string id)
+        {
+            // await _birthdayRepository.DeleteByIdAsync(id); TODO -- change DELETE
+            await _birthdayRepository.SaveChangesAsync();
+        }
+
+        public virtual async Task<List<Birthday>> GetReferencesTo(string id){
+            return  await _birthdayRepository.GetReferencesToAsync(id);
+        }
+
+        public virtual async Task<List<Birthday>> GetReferencesFrom(string id){
+            return  await _birthdayRepository.GetReferencesFromAsync(id);
+        }
+
+        public virtual async Task<Birthday> FindOneWithText(string id)
+        {
+            var result = await _birthdayRepository
+            .GetOneAsync(id, true);
+            return result;
+        }
+
+        public async Task<List<string>> GetUniqueFieldValuesAsync(string field)
+        {
+            return await _birthdayRepository.GetUniqueFieldValuesAsync(field);
+        }   
     }
 }

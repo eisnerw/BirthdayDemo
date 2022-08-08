@@ -71,6 +71,12 @@ export class BirthdayService {
       );
   }
 
+  postQuery(req?: any): Observable<HttpResponse<{}>> {
+    return this.http
+      .post<IBirthday[]>(this.resourceUrl + '/birthdayQuery', req, { observe: 'response'})
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }  
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, {
       observe: "response",

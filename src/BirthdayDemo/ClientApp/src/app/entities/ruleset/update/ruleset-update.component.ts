@@ -40,11 +40,13 @@ export class RulesetUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const ruleset = this.createFromForm();
+    /*
     if (ruleset.id !== undefined) {
       this.subscribeToSaveResponse(this.rulesetService.update(ruleset));
     } else {
       this.subscribeToSaveResponse(this.rulesetService.create(ruleset));
     }
+    */
   }
 
   protected subscribeToSaveResponse(

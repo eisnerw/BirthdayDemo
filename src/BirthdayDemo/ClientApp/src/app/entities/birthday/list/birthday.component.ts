@@ -19,7 +19,6 @@ import { ConfirmationService, PrimeNGConfig} from "primeng/api";
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { ICategory } from "../../category/category.model"
 
-
 @Component({
   selector: "jhi-birthday",
   templateUrl: "./birthday.component.html",

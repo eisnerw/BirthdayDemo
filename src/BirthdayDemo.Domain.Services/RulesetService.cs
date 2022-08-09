@@ -41,5 +41,11 @@ namespace BirthdayDemo.Domain.Services
             await _rulesetRepository.DeleteByIdAsync(id);
             await _rulesetRepository.SaveChangesAsync();
         }
+        public virtual async Task<Ruleset> FindOneByName(string name)
+        {
+            var result = await _rulesetRepository.QueryHelper().AsNoTracking()
+                .GetOneAsync(ruleset => ruleset.Name.ToLower() == name.ToLower());
+            return result;
+        }
     }
 }

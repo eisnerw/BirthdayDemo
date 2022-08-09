@@ -13,5 +13,7 @@ namespace BirthdayDemo.Domain.Services.Interfaces
         Task<Ruleset> FindOne(long id);
 
         Task Delete(long id);
+        
+        Task<Ruleset> FindOneByName(string name);
     }
 }

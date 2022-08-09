@@ -105,5 +105,10 @@ namespace BirthdayDemo.Infrastructure.Data.Repositories
 
             dbset.RemoveRange(filteredManyToManyData);
         }
+        public virtual async Task<IPage<TEntity>> GetPageFilteredAsync(IPageable pageable, string query)
+        {
+            return await _dbSet.UsePageableAsync(pageable);
+        }
+
     }
 }

@@ -15,6 +15,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BirthdayDemo.Crosscutting\BirthdayDemo.Crosscutting.csproj" />
+        <ProjectReference Include="..\BirthdayDemo.Dto\BirthdayDemo.Dto.csproj" />
     </ItemGroup>
 
 </Project>

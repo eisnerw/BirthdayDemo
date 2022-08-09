@@ -22,5 +22,6 @@ namespace BirthdayDemo.Domain.Repositories.Interfaces
         TEntity Attach(TEntity entity);
         TEntity Update(TEntity entity);
         bool UpdateRange(params TEntity[] entities);
+        Task<IPage<TEntity>> GetPageFilteredAsync(IPageable pageable, string query);
     }
 }

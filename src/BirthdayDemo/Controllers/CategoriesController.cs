@@ -16,7 +16,10 @@ using BirthdayDemo.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace BirthdayDemo.Controllers
 {
@@ -25,6 +28,7 @@ namespace BirthdayDemo.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
+        private static readonly string APPLICATION_NAME = "birthdayDemoApp";
         private const string EntityName = "category";
         private readonly ILogger<CategoriesController> _log;
         private readonly IMapper _mapper;
@@ -59,18 +63,33 @@ namespace BirthdayDemo.Controllers
         {
             _log.LogDebug($"REST request to update Category : {categoryDto}");
             if (categoryDto.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
-            if (id != categoryDto.Id) throw new BadRequestAlertException("Invalid Id", EntityName, "idinvalid");
+            // if (id != categoryDto.Id) throw new BadRequestAlertException("Invalid Id", EntityName, "idinvalid");
             Category category = _mapper.Map<Category>(categoryDto);
             await _categoryService.Save(category);
             return Ok(category)
                 .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, category.Id.ToString()));
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllCategories(IPageable pageable)
+        [HttpPost("categoryQuery")]
+        public async Task<ActionResult<IEnumerable<BirthdayDto>>> GetAllCategories([FromBody] Dictionary<string, object> queryDictionary)
         {
             _log.LogDebug("REST request to get a page of Categories");
-            var result = await _categoryService.FindAll(pageable);
+            var pageable = Pageable.Of(1, 10);
+            String query = "";
+            if (queryDictionary.Keys.Contains("query")){
+                query = (string)queryDictionary["query"];
+            }
+            if (query.StartsWith("{")){
+                var categoryRequest = JsonConvert.DeserializeObject<Dictionary<string,object>>(query);
+                string categoryQuery = (string)categoryRequest["query"];
+                if (categoryQuery != ""){
+                    categoryQuery = TextTemplate.Runner.Interpolate("LuceneQueryBuilder", categoryQuery);
+                }
+                categoryRequest["query"] = categoryQuery;
+                query = JsonConvert.SerializeObject(categoryRequest);
+            }
+            CategoryDto categorydto = _mapper.Map<CategoryDto>(new Category());
+            var result = await _categoryService.FindAll(pageable, query);
             var page = new Page<CategoryDto>(result.Content.Select(entity => _mapper.Map<CategoryDto>(entity)).ToList(), pageable, result.TotalElements);
             return Ok(((IPage<CategoryDto>)page).Content).WithHeaders(page.GeneratePaginationHttpHeaders());
         }
@@ -91,5 +110,17 @@ namespace BirthdayDemo.Controllers
             await _categoryService.Delete(id);
             return Ok().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id.ToString()));
         }
+
+        [HttpPost("analyze")]
+        [ValidateModel]
+        public async Task<IActionResult> AnalyzeDocuments([FromBody] DocumentAnalysisDto documentAnalysisDto)
+        {
+            _log.LogDebug($"REST request to analyze {documentAnalysisDto.ids.Count} documents");
+            AnalysisResultDto result = await _categoryService.Analyze(documentAnalysisDto.ids);
+            IHeaderDictionary headers = new HeaderDictionary();
+            headers.Add($"X-{APPLICATION_NAME}-alert", $"{APPLICATION_NAME}.{EntityName}.analyzed");
+            headers.Add($"X-{APPLICATION_NAME}-params", result.result);
+            return Ok(result).WithHeaders(headers);
+        }  
     }
 }

@@ -10,12 +10,12 @@ namespace BirthdayDemo.Domain
     public class Category : BaseEntity<long>
     {
         public string CategoryName { get; set; }
-        public bool? Selected { get; set; }
-        public bool? NotCategorized { get; set; }
-        public string FocusType { get; set; }
-        public string FocusId { get; set; }
-        public string JsonString { get; set; }
-        public string Description { get; set; }
+        public bool? selected { get; set; }
+        public bool? notCategorized { get; set; }
+        public FocusType focusType { get; set; }
+        public string focusId { get; set; }
+        public string jsonString { get; set; }
+        public string description { get; set; }
         [JsonIgnore]
         public IList<Birthday> Birthdays { get; set; } = new List<Birthday>();
 
@@ -40,13 +40,20 @@ namespace BirthdayDemo.Domain
             return "Category{" +
                     $"ID='{Id}'" +
                     $", CategoryName='{CategoryName}'" +
-                    $", Selected='{Selected}'" +
-                    $", NotCategorized='{NotCategorized}'" +
-                    $", FocusType='{FocusType}'" +
-                    $", FocusId='{FocusId}'" +
-                    $", JsonString='{JsonString}'" +
-                    $", Description='{Description}'" +
+                    $", selected='{selected}'" +
+                    $", notCategorized='{notCategorized}'" +
+                    $", focusType='{focusType}'" +
+                    $", focusId='{focusId}'" +
+                    $", jsonString='{jsonString}'" +
+                    $", description='{description}'" +
                     "}";
         }
+    }
+
+    public enum FocusType {
+        NONE,
+        FOCUS,
+        REFERENCESTO,
+        REFERENCESFROM
     }
 }

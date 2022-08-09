@@ -9,7 +9,7 @@ export interface ICategory {
   focusId?: string | null;
   jsonString?: string | null;
   description?: string | null;
-  birthdays?: IBirthday[] | null;
+  ids?: string[] | null;
 }
 
 export class Category implements ICategory {
@@ -22,7 +22,7 @@ export class Category implements ICategory {
     public focusId?: string | null,
     public jsonString?: string | null,
     public description?: string | null,
-    public birthdays?: IBirthday[] | null
+    public ids?: string[] | null
   ) {
     this.selected = this.selected ?? false;
     this.notCategorized = this.notCategorized ?? false;

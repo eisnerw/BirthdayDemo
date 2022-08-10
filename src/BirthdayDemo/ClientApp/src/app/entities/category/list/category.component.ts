@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import { Component, OnInit, OnDestroy, Input, ViewChild } from "@angular/core";
 import { HttpHeaders, HttpResponse } from "@angular/common/http";
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
@@ -209,7 +210,7 @@ export class CategoryComponent implements OnInit {
 
 
 
-  categories?: ICategory[];
+  categories: ICategory[] = [];
   isLoading = false;
 
   constructor(

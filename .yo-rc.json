@@ -50,7 +50,7 @@
     "enableHibernateCache": true,
     "reactive": false,
     "languages": ["en", "fr"],
-    "entities": ["Category", "Birthday", "Ruleset"],
+    "entities": ["Category", "Birthday", "Ruleset", "Selector"],
     "lastLiquibaseTimestamp": 1645212292000
   }
 }

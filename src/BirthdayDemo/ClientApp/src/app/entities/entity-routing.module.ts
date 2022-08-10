@@ -23,6 +23,12 @@ import { RouterModule } from "@angular/router";
           import("./ruleset/ruleset.module").then((m) => m.RulesetModule),
       },
       {
+        path: "selector",
+        data: { pageTitle: "Selectors" },
+        loadChildren: () =>
+          import("./selector/selector.module").then((m) => m.SelectorModule),
+      },      
+      {
         path: "category",
         data: { pageTitle: "Categories" },
         loadChildren: () =>

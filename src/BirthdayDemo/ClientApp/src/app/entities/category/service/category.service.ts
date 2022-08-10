@@ -90,4 +90,8 @@ export class CategoryService {
     }
     return categoryCollection;
   }
+
+  analyze(req?: any): Observable<HttpResponse<{}>> {
+    return this.http.post<ICategory>(`${this.resourceUrl}/analyze`, req, { observe: 'response' });
+  }  
 }

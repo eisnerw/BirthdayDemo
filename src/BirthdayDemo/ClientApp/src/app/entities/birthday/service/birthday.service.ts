@@ -33,7 +33,7 @@ export class BirthdayService {
     const copy = this.convertDateFromClient(birthday);
     return this.http
       .put<IBirthday>(
-        `${this.resourceUrl}/${getBirthdayIdentifier(birthday) as number}`,
+        `${this.resourceUrl}/${birthday.elasticId}`,
         copy,
         { observe: "response" }
       )

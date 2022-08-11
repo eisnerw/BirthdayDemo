@@ -328,7 +328,7 @@ export class BirthdayTableComponent implements OnInit, OnDestroy {
             setTimeout(()=>{
               this.selectedCategories = [];
               const selectedRow = this.contextSelectedRow;
-              this.birthdayDialogId = selectedRow ? selectedRow?.id?.toString() : "";
+              this.birthdayDialogId = selectedRow ? selectedRow?.elasticId?.toString() : "";
               this.birthdayDialogTitle = selectedRow ? selectedRow?.fname + " " + selectedRow?.lname : "";
               this.categoryService
               .postQuery({
@@ -349,7 +349,7 @@ export class BirthdayTableComponent implements OnInit, OnDestroy {
           icon: 'pi pi-book',
           command: ()=>{
             setTimeout(()=>{
-              this.birthdayDialogId = this.contextSelectedRow ? this.contextSelectedRow?.id?.toString() : "";
+              this.birthdayDialogId = this.contextSelectedRow ? this.contextSelectedRow?.elasticId?.toString() : "";
               this.birthdayDialogTitle = this.contextSelectedRow ? this.contextSelectedRow?.lname as string : "";
               this.bDisplayBirthday = true;
             }, 0);

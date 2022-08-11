@@ -56,7 +56,7 @@ namespace BirthdayDemo.Controllers
                 .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, birthday.Id.ToString()));
         }
 
-        [HttpPut("")]
+        [HttpPut("{id}")]
         [ValidateModel]
         public async Task<IActionResult> UpdateBirthday([FromBody] BirthdayDto birthdayDto)
         {

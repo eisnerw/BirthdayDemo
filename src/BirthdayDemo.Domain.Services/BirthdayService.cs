@@ -31,9 +31,7 @@ namespace BirthdayDemo.Domain.Services
 
         public virtual async Task<Birthday> FindOne(string id)
         {
-            var result = await _birthdayRepository.QueryHelper()
-                .Include(birthday => birthday.Categories)
-                .GetOneAsync(birthday => birthday.ElasticId == id);
+            var result = await _birthdayRepository.GetOneAsync(id, false);
             return result;
         }
 

@@ -3,6 +3,7 @@ import { ICategory } from "app/entities/category/category.model";
 
 export interface IBirthday {
   id?: number;
+  elasticId?: string;
   lname?: string | null;
   fname?: string | null;
   sign?: string | null;
@@ -14,6 +15,7 @@ export interface IBirthday {
 export class Birthday implements IBirthday {
   constructor(
     public id?: number,
+    public elasticId? : string,
     public lname?: string | null,
     public fname?: string | null,
     public sign?: string | null,

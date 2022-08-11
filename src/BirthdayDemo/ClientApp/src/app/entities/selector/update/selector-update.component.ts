@@ -56,13 +56,11 @@ export class SelectorUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const selector = this.createFromForm();
-    /*
     if (selector.id !== undefined) {
       this.subscribeToSaveResponse(this.selectorService.update(selector));
     } else {
       this.subscribeToSaveResponse(this.selectorService.create(selector));
     }
-    */
   }
 
   updateForm(selector: ISelector): void {

@@ -72,6 +72,18 @@
           <li>
             <a
               class="dropdown-item"
+              routerLink="selector"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span>Selector</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
               routerLink="birthday"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"

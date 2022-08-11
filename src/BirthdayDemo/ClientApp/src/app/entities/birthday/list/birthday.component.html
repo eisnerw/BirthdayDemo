@@ -12,11 +12,11 @@
       <jhi-birthday-query-builder #queryBuilder></jhi-birthday-query-builder>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelSearchDialog()">
-            <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
         <button type="submit" class="btn btn-primary" [disabled]="queryBuilder.queryCtrl.errors">
-          <fa-icon [icon]="faCheck"></fa-icon>&nbsp;<span jhiTranslate="entity.action.ok" (click)="okSearchDialog(queryBuilder)"></span>
+          <fa-icon [icon]="faCheck"></fa-icon>&nbsp;<span (click)="okSearchDialog(queryBuilder)"></span>
         </button>
       </div>
     </p-dialog>

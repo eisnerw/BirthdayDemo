@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" *ngIf="!hideHeader">
-      <span jhiTranslate="jhipsterApp.category.home.title">Categories</span><span style="font-size: 16px;font-weight: 700;">... </span>
+      <span>Categories</span><span style="font-size: 16px;font-weight: 700;">... </span>
       <span style="cursor:pointer;">
         <span aria-label="Search" class="pi pi-search" (click)="showSearchDialog(queryBuilder)"></span>
       </span>
@@ -42,11 +42,11 @@
       <jhi-birthday-query-builder #queryBuilder [rulesetMap]="rulesetMap" [optionsMap] = "optionsMap"></jhi-birthday-query-builder>
       <div class="modal-footer">
         <button aria-label="Cancel" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelSearchDialog()">
-            <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-        <button type="Submit" aria-label="submit" class="btn btn-primary" [disabled]="!queryBuilder.queryIsValid() || queryBuilder.containsDirtyNamedQueries()">
-          <fa-icon [icon]="faCheck"></fa-icon>&nbsp;<span jhiTranslate="entity.action.ok" (click)="okSearchDialog(queryBuilder, queryEditbox)"></span>
+        <button  (click)="okSearchDialog(queryBuilder, queryEditbox)" type="Submit" aria-label="submit" class="btn btn-primary" [disabled]="!queryBuilder.queryIsValid() || queryBuilder.containsDirtyNamedQueries()">
+          <fa-icon [icon]="faCheck"></fa-icon>&nbsp;
         </button>
       </div>
     </p-dialog>
@@ -100,7 +100,7 @@
                 </ng-template>
               </p-chips>
             </span>
-            <span class="p-input-icon-left p-ml-auto">
+            <span class="p-input-icon-left p-ml-auto" style="float:right;">
               <i class="pi pi-search"></i>
               <input
                 #searchInput

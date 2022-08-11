@@ -20,6 +20,7 @@ namespace BirthdayDemo.Configuration.AutoMapper
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<Birthday, BirthdayDto>().ReverseMap();
             CreateMap<Ruleset, RulesetDto>().ReverseMap();
+            CreateMap<Selector, SelectorDto>().ReverseMap();
         }
     }
 }

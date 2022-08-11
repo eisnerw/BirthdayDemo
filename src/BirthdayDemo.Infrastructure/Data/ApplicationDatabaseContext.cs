@@ -31,6 +31,7 @@ namespace BirthdayDemo.Infrastructure.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Birthday> Birthdays { get; set; }
         public DbSet<Ruleset> Rulesets { get; set; }
+        public DbSet<Selector> Selectors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

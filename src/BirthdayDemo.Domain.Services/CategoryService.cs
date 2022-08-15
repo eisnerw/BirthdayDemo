@@ -21,10 +21,13 @@ namespace BirthdayDemo.Domain.Services
         private readonly IMapper _mapper;
         protected readonly IBirthdayService _birthdayService;
 
-        public CategoryService(ICategoryRepository categoryRepository, ISelectorService selectorService)
+        public CategoryService(ICategoryRepository categoryRepository, ISelectorService selectorService, IMapper mapper, IBirthdayService birthdayService, IRulesetService rulesetService)
         {
             _categoryRepository = categoryRepository;
             _selectorService = selectorService;
+            _mapper = mapper;
+            _birthdayService = birthdayService;
+            _rulesetService = rulesetService;
         }
 
         public virtual async Task<Category> Save(Category category)
@@ -61,17 +64,18 @@ namespace BirthdayDemo.Domain.Services
                 type = AnalysisMatchType.none
             };
             var pageable = JHipsterNet.Core.Pagination.PageableConstants.UnPaged;
-            var result = await _selectorService.FindAll(pageable);{}
+            var result = await _selectorService.FindAll(pageable);
             List<SelectorDto> lstSelector = result.Content.Select(entity => _mapper.Map<SelectorDto>(entity)).ToList();
             List<SelectorForMatch> lstSelectorForMatch = new List<SelectorForMatch>();
-            lstSelector.ForEach(async s=>{
+            for (int i = 0; i < lstSelector.Count; i++){
+                SelectorDto s = lstSelector[i];
                 Ruleset ruleset = await _rulesetService.FindOneByName(s.RulesetName);
                 RulesetOrRule rulesetOrRule = JsonConvert.DeserializeObject<RulesetOrRule>(ruleset.JsonString);
                 lstSelectorForMatch.Add(new SelectorForMatch{
                     selectorDto = s,
                     ruleset = rulesetOrRule
-                });
-            });
+                });                
+            }
             string error = null;
             int countTries = 0;
             int countMatches = 0;

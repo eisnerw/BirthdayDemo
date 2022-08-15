@@ -617,7 +617,7 @@ export class CategoryComponent implements OnInit {
   analyzeSelected():void{
     const ids : string[] = [];
     this.checkboxSelectedRows.forEach(r=>{
-      ids.push(r.id as unknown as string);
+      ids.push(r.elasticId as unknown as string);
     });
     this.categoryService.analyze({
       ids

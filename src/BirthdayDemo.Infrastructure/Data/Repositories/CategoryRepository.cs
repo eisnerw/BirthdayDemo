@@ -148,7 +148,7 @@ namespace BirthdayDemo.Infrastructure.Data.Repositories
                 else if (view.field.StartsWith("ruleset"))
                 {
                     // special view of rulesets
-                    Pageable rulesetPageable = Pageable.Of(0, 10);
+                    Pageable rulesetPageable = Pageable.Of(0, 10000);
                     var result = await _rulesetService.FindAll(rulesetPageable);
                     List<RulesetDto> lstRuleset = result.Content.Select(entity => _mapper.Map<RulesetDto>(entity)).ToList();
                     SortedDictionary<string, RulesetDto> dictRuleset = new SortedDictionary<string, RulesetDto>();

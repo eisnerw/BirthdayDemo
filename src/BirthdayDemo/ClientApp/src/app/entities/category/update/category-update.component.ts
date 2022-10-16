@@ -75,14 +75,14 @@ export class CategoryUpdateComponent implements OnInit {
 
   protected updateForm(category: ICategory): void {
     this.editForm.patchValue({
-      id: category.id,
-      categoryName: category.categoryName,
-      selected: category.selected,
-      notCategorized: category.notCategorized,
-      focusType: category.focusType,
-      focusId: category.focusId,
-      jsonString: category.jsonString,
-      description: category.description,
+      id: category.id as any,
+      categoryName: category.categoryName as any,
+      selected: category.selected as any,
+      notCategorized: category.notCategorized as any,
+      focusType: category.focusType as any,
+      focusId: category.focusId as any,
+      jsonString: category.jsonString as any,
+      description: category.description as any,
     });
   }
 

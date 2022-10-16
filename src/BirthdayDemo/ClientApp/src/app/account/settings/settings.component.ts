@@ -40,9 +40,9 @@ export class SettingsComponent implements OnInit {
     this.accountService.identity().subscribe((account) => {
       if (account) {
         this.settingsForm.patchValue({
-          firstName: account.firstName,
-          lastName: account.lastName,
-          email: account.email,
+          firstName: account.firstName as any,
+          lastName: account.lastName as any,
+          email: account.email as any,
         });
 
         this.account = account;
@@ -53,9 +53,9 @@ export class SettingsComponent implements OnInit {
   save(): void {
     this.success = false;
 
-    this.account.firstName = this.settingsForm.get("firstName")!.value;
-    this.account.lastName = this.settingsForm.get("lastName")!.value;
-    this.account.email = this.settingsForm.get("email")!.value;
+    this.account.firstName = this.settingsForm.get("firstName")!.value as any;
+    this.account.lastName = this.settingsForm.get("lastName")!.value as any;
+    this.account.email = this.settingsForm.get("email")!.value as any;
 
     this.accountService.save(this.account).subscribe(() => {
       this.success = true;

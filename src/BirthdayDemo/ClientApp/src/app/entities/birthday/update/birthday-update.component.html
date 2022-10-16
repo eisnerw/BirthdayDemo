@@ -104,7 +104,7 @@
               [ngValue]="
                 getSelectedCategory(
                   categoryOption,
-                  editForm.get('categories')!.value
+                  editForm.get('categories')!.value!
                 )
               "
               *ngFor="

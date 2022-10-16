@@ -43,22 +43,11 @@ import { TableState } from 'primeng/api';
 @Component({
     selector: 'super-table',
     template: `
-        <div #container [ngStyle]="style" [class]="styleClass"
+    <div #container [ngStyle]="style" [class]="styleClass"
         [ngClass]="{'p-datatable p-component': true,
             'p-datatable-hoverable-rows': (rowHover||selectionMode),
-            'p-datatable-auto-layout': autoLayout,
-            'p-datatable-resizable': resizableColumns,
-            'p-datatable-resizable-fit': (resizableColumns && columnResizeMode === 'fit'),
             'p-datatable-scrollable': scrollable,
-            'p-datatable-scrollable-vertical': scrollable && scrollDirection === 'vertical',
-            'p-datatable-scrollable-horizontal': scrollable && scrollDirection === 'horizontal',
-            'p-datatable-scrollable-both': scrollable && scrollDirection === 'both',
-            'p-datatable-flex-scrollable': (scrollable && scrollHeight === 'flex'),
-            'p-datatable-responsive-stack': responsiveLayout === 'stack',
-            'p-datatable-responsive-scroll': responsiveLayout === 'scroll',
-            'p-datatable-responsive': responsive,
-            'p-datatable-grouped-header': headerGroupedTemplate != null,
-            'p-datatable-grouped-footer': footerGroupedTemplate != null}" [attr.id]="id">
+            'p-datatable-flex-scrollable': (scrollable && scrollHeight === 'flex')}" [attr.id]="id">
         <div class="p-datatable-loading-overlay p-component-overlay" *ngIf="loading && showLoader">
             <i [class]="'p-datatable-loading-icon pi-spin ' + loadingIcon"></i>
         </div>
@@ -70,31 +59,34 @@ import { TableState } from 'primeng/api';
             [templateLeft]="paginatorLeftTemplate" [templateRight]="paginatorRightTemplate" [dropdownAppendTo]="paginatorDropdownAppendTo" [dropdownScrollHeight]="paginatorDropdownScrollHeight"
             [currentPageReportTemplate]="currentPageReportTemplate" [showFirstLastIcon]="showFirstLastIcon" [dropdownItemTemplate]="paginatorDropdownItemTemplate" [showCurrentPageReport]="showCurrentPageReport" [showJumpToPageDropdown]="showJumpToPageDropdown" [showJumpToPageInput]="showJumpToPageInput" [showPageLinks]="showPageLinks"></p-paginator>
 
-        <div #wrapper class="p-datatable-wrapper" [ngStyle]="{height: scrollHeight}">
-            <table #table *ngIf="!virtualScroll" role="table" class="p-datatable-table" [ngClass]="tableStyleClass" [ngStyle]="tableStyle" [attr.id]="id+'-table'">
-                <ng-container *ngTemplateOutlet="colGroupTemplate; context {$implicit: columns}"></ng-container>
-                <thead class="p-datatable-thead">
-                    <ng-container *ngTemplateOutlet="headerGroupedTemplate||headerTemplate; context: {$implicit: columns}"></ng-container>
-                </thead>
-                <tbody class="p-datatable-tbody p-datatable-frozen-tbody" *ngIf="frozenValue||frozenBodyTemplate" [value]="frozenValue" [frozenRows]="true" [super-table-body]="columns" [pTableBodyTemplate]="frozenBodyTemplate" [frozen]="true"></tbody>
-                <tbody class="p-datatable-tbody" [value]="dataToRender" [super-table-body]="columns" [pTableBodyTemplate]="bodyTemplate"></tbody>
-                <tfoot *ngIf="footerGroupedTemplate||footerTemplate" class="p-datatable-tfoot">
-                    <ng-container *ngTemplateOutlet="footerGroupedTemplate||footerTemplate; context {$implicit: columns}"></ng-container>
-                </tfoot>
-            </table>
-            <cdk-virtual-scroll-viewport *ngIf="virtualScroll" [itemSize]="virtualRowHeight" tabindex="0" [style.height]="scrollHeight !== 'flex' ? scrollHeight : undefined" [minBufferPx]="minBufferPx" [maxBufferPx]="maxBufferPx" (scrolledIndexChange)="onScrollIndexChange($event)" class="p-datatable-virtual-scrollable-body">
-                <table #table role="table" class="p-datatable-table" [ngClass]="tableStyleClass" [ngStyle]="tableStyle" [attr.id]="id+'-table'">
-                    <ng-container *ngTemplateOutlet="colGroupTemplate; context {$implicit: columns}"></ng-container>
-                    <thead #tableHeader class="p-datatable-thead">
-                        <ng-container *ngTemplateOutlet="headerGroupedTemplate||headerTemplate; context: {$implicit: columns}"></ng-container>
+        <div #wrapper class="p-datatable-wrapper" [ngStyle]="{maxHeight: virtualScroll ? '' : scrollHeight}">
+            <p-scroller #scroller *ngIf="virtualScroll" [items]="processedData" [columns]="columns" [style]="{'height': scrollHeight !== 'flex' ? scrollHeight : ''}" [scrollHeight]="scrollHeight !== 'flex' ? '' : '100%'" [itemSize]="virtualScrollItemSize||_virtualRowHeight" [delay]="lazy ? virtualScrollDelay : 0"
+                [lazy]="lazy" (onLazyLoad)="onLazyItemLoad($event)" [loaderDisabled]="true" [showSpacer]="false" [showLoader]="!!loadingBodyTemplate" [options]="virtualScrollOptions">
+                <ng-template pTemplate="content" let-items let-scrollerOptions="options">
+                    <ng-container *ngTemplateOutlet="buildInTable; context: {$implicit: items, options: scrollerOptions}"></ng-container>
+                </ng-template>
+            </p-scroller>
+            <ng-container *ngIf="!virtualScroll">
+                <ng-container *ngTemplateOutlet="buildInTable; context: {$implicit: processedData, options: { columns }}"></ng-container>
+            </ng-container>
+
+            <ng-template #buildInTable let-items let-scrollerOptions="options">
+                <table #table role="table" [ngClass]="{'p-datatable-table': true, 
+                                                    'p-datatable-scrollable-table': scrollable,
+                                                    'p-datatable-resizable-table': resizableColumns,
+                                                    'p-datatable-resizable-table-fit': (resizableColumns && columnResizeMode === 'fit')}" 
+                    [class]="tableStyleClass" [ngStyle]="tableStyle" [style]="scrollerOptions.spacerStyle" [attr.id]="id+'-table'">
+                    <ng-container *ngTemplateOutlet="colGroupTemplate; context: {$implicit: scrollerOptions.columns}"></ng-container>
+                    <thead #thead class="p-datatable-thead">
+                        <ng-container *ngTemplateOutlet="headerGroupedTemplate||headerTemplate; context: {$implicit: scrollerOptions.columns}"></ng-container>
                     </thead>
-                    <tbody class="p-datatable-tbody p-datatable-frozen-tbody" *ngIf="frozenValue||frozenBodyTemplate" [value]="frozenValue" [frozenRows]="true" [super-table-body]="columns" [pTableBodyTemplate]="bodyTemplate" [frozen]="true"></tbody>
-                    <tbody class="p-datatable-tbody" [value]="dataToRender" [super-table-body]="columns" [pTableBodyTemplate]="bodyTemplate"></tbody>
-                    <tfoot *ngIf="footerGroupedTemplate||footerTemplate" class="p-datatable-tfoot">
-                        <ng-container *ngTemplateOutlet="footerGroupedTemplate||footerTemplate; context {$implicit: columns}"></ng-container>
+                    <tbody class="p-datatable-tbody p-datatable-frozen-tbody" *ngIf="frozenValue||frozenBodyTemplate" [value]="frozenValue" [frozenRows]="true" [super-table-body]="scrollerOptions.columns" [pTableBodyTemplate]="frozenBodyTemplate" [frozen]="true"></tbody>
+                    <tbody class="p-datatable-tbody" [ngClass]="scrollerOptions.contentStyleClass" [style]="scrollerOptions.contentStyle" [value]="dataToRender(scrollerOptions.rows)" [super-table-body]="scrollerOptions.columns" [pTableBodyTemplate]="bodyTemplate" [scrollerOptions]="scrollerOptions"></tbody>
+                    <tfoot *ngIf="footerGroupedTemplate||footerTemplate" #tfoot class="p-datatable-tfoot">
+                        <ng-container *ngTemplateOutlet="footerGroupedTemplate||footerTemplate; context: {$implicit: scrollerOptions.columns}"></ng-container>
                     </tfoot>
                 </table>
-            </cdk-virtual-scroll-viewport>
+            </ng-template>
         </div>
 
         <p-paginator [rows]="rows" [first]="first" [totalRecords]="totalRecords" [pageLinkSize]="pageLinks" styleClass="p-paginator-bottom" [alwaysShow]="alwaysShowPaginator"
@@ -568,10 +560,6 @@ export class SuperTable extends Table implements OnInit, AfterViewInit, AfterCon
         }
     }
 
-    get dataToRender() {
-        return super.dataToRender;
-    }
-
     doFilter(){
         let childFilters : any = {};
         Object.keys(this.filters).forEach(k=>{
@@ -646,46 +634,46 @@ export class SuperTable extends Table implements OnInit, AfterViewInit, AfterCon
     template: `
         <ng-container *ngIf="!dt.expandedRowTemplate && !dt.virtualScroll">
         <ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="value" [ngForTrackBy]="dt.rowTrackBy">
-            <ng-container *ngIf="dt.groupHeaderTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupHeader(value, rowData, rowIndex)" role="row">
-                <ng-container *ngTemplateOutlet="dt.groupHeaderTemplate; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+            <ng-container *ngIf="dt.groupHeaderTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupHeader(value, rowData, getRowIndex(rowIndex))" role="row">
+                <ng-container *ngTemplateOutlet="dt.groupHeaderTemplate; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
             </ng-container>
             <ng-container *ngIf="dt.rowGroupMode !== 'rowspan'">
-                <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+                <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
             </ng-container>
             <ng-container *ngIf="dt.rowGroupMode === 'rowspan'">
-                <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen, rowgroup: shouldRenderRowspan(value, rowData, rowIndex), rowspan: calculateRowGroupSize(value, rowData, rowIndex)}"></ng-container>
+                <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen, rowgroup: shouldRenderRowspan(value, rowData, getRowIndex(rowIndex)), rowspan: calculateRowGroupSize(value, rowData, getRowIndex(rowIndex))}"></ng-container>
             </ng-container>
-            <ng-container *ngIf="dt.groupFooterTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupFooter(value, rowData, rowIndex)" role="row">
-                <ng-container *ngTemplateOutlet="dt.groupFooterTemplate; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+            <ng-container *ngIf="dt.groupFooterTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupFooter(value, rowData, getRowIndex(rowIndex))" role="row">
+                <ng-container *ngTemplateOutlet="dt.groupFooterTemplate; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
             </ng-container>
         </ng-template>
     </ng-container>
     <ng-container *ngIf="!dt.expandedRowTemplate && dt.virtualScroll">
-        <ng-template cdkVirtualFor let-rowData let-rowIndex="index" [cdkVirtualForOf]="dt.filteredValue||dt.value" [cdkVirtualForTrackBy]="dt.rowTrackBy" [cdkVirtualForTemplateCacheSize]="0">
-            <ng-container *ngTemplateOutlet="rowData ? template: dt.loadingBodyTemplate; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+        <ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="dt.filteredValue||dt.value" [ngForTrackBy]="dt.rowTrackBy">
+            <ng-container *ngTemplateOutlet="rowData ? template: dt.loadingBodyTemplate; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
         </ng-template>
     </ng-container>
     <ng-container *ngIf="dt.expandedRowTemplate && !(frozen && dt.frozenExpandedRowTemplate)">
         <ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="value" [ngForTrackBy]="dt.rowTrackBy">
             <ng-container *ngIf="!dt.groupHeaderTemplate">
-                <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+                <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
             </ng-container>
-            <ng-container *ngIf="dt.groupHeaderTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupHeader(value, rowData, rowIndex)" role="row">
-                <ng-container *ngTemplateOutlet="dt.groupHeaderTemplate; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+            <ng-container *ngIf="dt.groupHeaderTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupHeader(value, rowData, getRowIndex(rowIndex))" role="row">
+                <ng-container *ngTemplateOutlet="dt.groupHeaderTemplate; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
             </ng-container>
             <ng-container *ngIf="dt.isRowExpanded(rowData)">
-                <ng-container *ngTemplateOutlet="dt.expandedRowTemplate; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, frozen: frozen}"></ng-container>
-                <ng-container *ngIf="dt.groupFooterTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupFooter(value, rowData, rowIndex)" role="row">
-                    <ng-container *ngTemplateOutlet="dt.groupFooterTemplate; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+                <ng-container *ngTemplateOutlet="dt.expandedRowTemplate; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, frozen: frozen}"></ng-container>
+                <ng-container *ngIf="dt.groupFooterTemplate && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupFooter(value, rowData, getRowIndex(rowIndex))" role="row">
+                    <ng-container *ngTemplateOutlet="dt.groupFooterTemplate; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
                 </ng-container>
             </ng-container>
         </ng-template>
     </ng-container>
     <ng-container *ngIf="dt.frozenExpandedRowTemplate && frozen">
         <ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="value" [ngForTrackBy]="dt.rowTrackBy">
-            <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
+            <ng-container *ngTemplateOutlet="template; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, expanded: dt.isRowExpanded(rowData), editing: (dt.editMode === 'row' && dt.isRowEditing(rowData)), frozen: frozen}"></ng-container>
             <ng-container *ngIf="dt.isRowExpanded(rowData)">
-                <ng-container *ngTemplateOutlet="dt.frozenExpandedRowTemplate; context: {$implicit: rowData, rowIndex: dt.paginator ? (dt.first + rowIndex) : rowIndex, columns: columns, frozen: frozen}"></ng-container>
+                <ng-container *ngTemplateOutlet="dt.frozenExpandedRowTemplate; context: {$implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, frozen: frozen}"></ng-container>
             </ng-container>
         </ng-template>
     </ng-container>
@@ -965,7 +953,7 @@ export class SuperCellEditor extends CellEditor implements AfterContentInit {
 @Component({
     selector: 'super-tableRadioButton',
     template: `
-        <div class="p-radiobutton p-component" [ngClass]="{'p-radiobutton-focused':focused, 'p-radiobutton-disabled': disabled}" (click)="onClick($event)">
+    <div class="p-radiobutton p-component" [ngClass]="{'p-radiobutton-focused':focused, 'p-radiobutton-disabled': disabled}" (click)="onClick($event)">
         <div class="p-hidden-accessible">
             <input type="radio" [attr.id]="inputId" [attr.name]="name" [checked]="checked" (focus)="onFocus()" (blur)="onBlur()"
             [disabled]="disabled" [attr.aria-label]="ariaLabel">
@@ -1117,8 +1105,12 @@ export class SuperReorderableRow extends ReorderableRow implements AfterViewInit
 })
 export class SuperColumnFilterFormElement extends ColumnFilterFormElement implements OnInit {
     @Input() filterConstraint: any;    
-    constructor(public dt: SuperTable) {
-        super(dt);
+    constructor(public dt: SuperTable, private cf: ColumnFilter) {
+        super(dt, cf);
+    }
+
+    get showButtons(): boolean {
+        return super.showButtons;
     }
 
     ngOnInit() {

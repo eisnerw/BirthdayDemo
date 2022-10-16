@@ -72,9 +72,9 @@ export class RulesetUpdateComponent implements OnInit {
 
   protected updateForm(ruleset: IRuleset): void {
     this.editForm.patchValue({
-      id: ruleset.id,
-      name: ruleset.name,
-      jsonString: ruleset.jsonString,
+      id: ruleset.id as any,
+      name: ruleset.name as any,
+      jsonString: ruleset.jsonString as any,
     });
   }
 

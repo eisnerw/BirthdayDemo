@@ -2,6 +2,12 @@
 
 This application was generated using JHipster 7.1.0 and JHipster .Net Core 3.1.1, you can find documentation and help at https://jhipsternet.readthedocs.io/en/latest/index.html and [https://www.jhipster.tech/documentation-archive/v7.1.0](https://www.jhipster.tech/documentation-archive/v7.1.0).
 
+## Issues
+1. Column headers don't allow resize
+2. Can't specify a filter
+3. Birthday table required eslint disable
+4. Changed SuperTable [showButtons]="showButtons" to "true"
+
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:

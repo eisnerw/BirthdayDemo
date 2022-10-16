@@ -65,12 +65,12 @@ export class SelectorUpdateComponent implements OnInit {
 
   updateForm(selector: ISelector): void {
     this.editForm.patchValue({
-      id: selector.id,
-      name: selector.name,
-      rulesetName: selector.rulesetName,
-      action: selector.action,
-      actionParameter: selector.actionParameter,
-      description: selector.description,
+      id: selector.id as any,
+      name: selector.name as any,
+      rulesetName: selector.rulesetName as any,
+      action: selector.action as any,
+      actionParameter: selector.actionParameter as any,
+      description: selector.description as any,
     });
   }
 

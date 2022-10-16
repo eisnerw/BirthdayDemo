@@ -82,14 +82,14 @@ export class UserManagementUpdateComponent implements OnInit {
 
   private updateForm(user: User): void {
     this.editForm.patchValue({
-      id: user.id,
+      id: user.id as any,
       login: user.login,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      activated: user.activated,
-      langKey: user.langKey,
-      authorities: user.authorities,
+      activated: user.activated as any,
+      langKey: user.langKey as any,
+      authorities: user.authorities as any,
     });
   }
 

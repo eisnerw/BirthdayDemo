@@ -107,13 +107,13 @@ export class BirthdayUpdateComponent implements OnInit {
 
   protected updateForm(birthday: IBirthday): void {
     this.editForm.patchValue({
-      id: birthday.id,
-      lname: birthday.lname,
-      fname: birthday.fname,
-      sign: birthday.sign,
-      dob: birthday.dob ? birthday.dob.format(DATE_TIME_FORMAT) : null,
-      isAlive: birthday.isAlive,
-      categories: birthday.categories,
+      id: birthday.id as any,
+      lname: birthday.lname as any,
+      fname: birthday.fname as any,
+      sign: birthday.sign as any,
+      dob: (birthday.dob ? birthday.dob.format(DATE_TIME_FORMAT) : null) as any,
+      isAlive: birthday.isAlive as any,
+      categories: birthday.categories as any,
     });
 
     this.categoriesSharedCollection =

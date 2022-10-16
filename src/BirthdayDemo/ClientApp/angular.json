@@ -120,6 +120,7 @@
   },
   "defaultProject": "birthday-demo",
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false
   }
 }

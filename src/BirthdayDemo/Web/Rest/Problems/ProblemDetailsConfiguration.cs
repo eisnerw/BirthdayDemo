@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace BirthdayDemo.Web.Rest.Problems
 {
-    public class ProblemDetailsConfiguration : IConfigureOptions<ProblemDetailsOptions>
+    public class ProblemDetailsConfiguration : IConfigureOptions<Hellang.Middleware.ProblemDetails.ProblemDetailsOptions>
     {
         public ProblemDetailsConfiguration(IHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
@@ -19,7 +19,7 @@ namespace BirthdayDemo.Web.Rest.Problems
         private IHostEnvironment _environment { get; }
         private IHttpContextAccessor _HttpContextAccessor { get; }
 
-        public void Configure(ProblemDetailsOptions options)
+        public void Configure(Hellang.Middleware.ProblemDetails.ProblemDetailsOptions options)
         {
             options.IncludeExceptionDetails = (ctx, details) => _environment.IsDevelopment();
 

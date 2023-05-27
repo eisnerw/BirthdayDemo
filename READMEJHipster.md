@@ -7,7 +7,7 @@ npm install -g yo
 npm install generator-jhipster@7.1.0
 npm i -g generator-jhipster-dotnetcore
 jhipster --blueprints dotnetcore
-change <TargetFramework>net5.0 changes to <TargetFramework>net6.0
+change <TargetFramework>net5.0 changes to <TargetFramework>net7.0
 
 NOTE: Delete dotnetcore.csproj and Program.cs files after the generation
 ```
@@ -32,7 +32,7 @@ jhipster import-jdl app.jdl
             "request": "launch",
             "justMyCode": false,
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/BirthdayDemo/bin/Debug/net6.0/birthday-demo.dll",
+            "program": "${workspaceFolder}/src/BirthdayDemo/bin/Debug/net7.0/birthday-demo.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/BirthdayDemo",
             "stopAtEntry": false,

@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 
 import {
   EMAIL_ALREADY_USED_TYPE,
@@ -55,7 +55,7 @@ export class RegisterComponent implements AfterViewInit {
 
   constructor(
     private registerService: RegisterService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngAfterViewInit(): void {

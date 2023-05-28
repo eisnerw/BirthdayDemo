@@ -1,6 +1,6 @@
 /* eslint-disable */ 
 import { Component, OnInit, ChangeDetectorRef, Renderer2, Input } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { QueryBuilderConfig, QueryBuilderComponent, RuleSet, Option } from "angular2-query-builder";
 import { Directive } from '@angular/core';
 import { AbstractControl, NG_ASYNC_VALIDATORS, ValidationErrors, AsyncValidator } from '@angular/forms';
@@ -31,7 +31,7 @@ export class BirthdayQueryBuilderComponent extends QueryBuilderComponent impleme
 
   public static topLevelRuleset: RuleSet;
 
-  public queryCtrl: FormControl;
+  public queryCtrl: UntypedFormControl;
   
   public allowCollapse = true;
 
@@ -109,7 +109,7 @@ export class BirthdayQueryBuilderComponent extends QueryBuilderComponent impleme
 
   private oldRulesetName : string | undefined;
 
-  constructor(private formBuilder: FormBuilder, private localChangeDetectorRef:ChangeDetectorRef, private renderer : Renderer2, private rulesetService: RulesetService, private birthdayQueryParserService : BirthdayQueryParserService) {
+  constructor(private formBuilder: UntypedFormBuilder, private localChangeDetectorRef:ChangeDetectorRef, private renderer : Renderer2, private rulesetService: RulesetService, private birthdayQueryParserService : BirthdayQueryParserService) {
     super(localChangeDetectorRef);
     this.queryCtrl = this.formBuilder.control(this.query); 
     this.initialize(JSON.stringify(this.query));

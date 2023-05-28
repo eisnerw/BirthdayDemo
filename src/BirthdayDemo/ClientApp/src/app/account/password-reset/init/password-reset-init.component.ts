@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 
 import { PasswordResetInitService } from "./password-reset-init.service";
 
@@ -26,7 +26,7 @@ export class PasswordResetInitComponent implements AfterViewInit {
 
   constructor(
     private passwordResetInitService: PasswordResetInitService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngAfterViewInit(): void {

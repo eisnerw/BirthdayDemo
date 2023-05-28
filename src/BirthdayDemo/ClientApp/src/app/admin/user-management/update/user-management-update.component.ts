@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 
 import { User } from "../user-management.model";
@@ -41,7 +41,7 @@ export class UserManagementUpdateComponent implements OnInit {
   constructor(
     private userService: UserManagementService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {

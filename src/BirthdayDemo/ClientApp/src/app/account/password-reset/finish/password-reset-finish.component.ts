@@ -5,7 +5,7 @@ import {
   ElementRef,
   ViewChild,
 } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 
 import { PasswordResetFinishService } from "./password-reset-finish.service";
@@ -38,7 +38,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
   constructor(
     private passwordResetFinishService: PasswordResetFinishService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {

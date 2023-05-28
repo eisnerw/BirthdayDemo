@@ -75,6 +75,8 @@ will generate few files:
     create BirthdayDemo/ClientApp/src/app/my-component/my-component.component.ts
     update BirthdayDemo/ClientApp/src/app/app.module.ts
 
+If you get "ng:not found", run npm link @angular/cli
+
 ## Building for production
 
 To build the artifacts and optimize the BirthdayDemo application for production, run:

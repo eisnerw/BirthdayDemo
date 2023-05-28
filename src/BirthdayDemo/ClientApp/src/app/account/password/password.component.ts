@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
 
 import { AccountService } from "app/core/auth/account.service";
@@ -30,7 +30,7 @@ export class PasswordComponent implements OnInit {
   constructor(
     private passwordService: PasswordService,
     private accountService: AccountService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {

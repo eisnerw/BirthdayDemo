@@ -3,7 +3,7 @@ image:
 
 tasks:
   - name: Restore & Build
-    init: |
+    init: 
       dotnet dev-certs https 
       dotnet restore
       dotnet build

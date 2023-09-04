@@ -20,7 +20,7 @@ namespace BirthdayDemo.Controllers
         public ActionResult<IEnumerable<SwaggerResourceDto>> GetSwaggerResources()
         {
             _log.LogDebug("REST request to get Swagger Resources");
-            SwaggerResourceDto sr1 = new SwaggerResourceDto() { Name = "BirthdayDemo", Location = "/v2/api-docs" };
+            SwaggerResourceDto sr1 = new SwaggerResourceDto() { Name = "BirthdayDemo", Location = "/v3/api-docs" };
             List<SwaggerResourceDto> swaggerResources = new List<SwaggerResourceDto>();
             swaggerResources.Add(sr1);
             return Ok(swaggerResources);

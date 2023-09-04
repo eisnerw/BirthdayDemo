@@ -11,7 +11,7 @@ namespace BirthdayDemo.Configuration
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v2", new OpenApiInfo { Title = "BirthdayDemo API", Version = "0.0.1" });
+                c.SwaggerDoc("v3", new OpenApiInfo { Title = "BirthdayDemo API", Version = "0.0.1" });
             });
 
             return services;
@@ -25,7 +25,7 @@ namespace BirthdayDemo.Configuration
             });
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/v2/api-docs", "BirthdayDemo API");
+                c.SwaggerEndpoint("/v3/api-docs", "BirthdayDemo API");
             });
             return app;
         }

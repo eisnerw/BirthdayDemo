@@ -31,9 +31,10 @@ export class BirthdayService {
 
   update(birthday: IBirthday): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(birthday);
+
     return this.http
       .put<IBirthday>(
-        `${this.resourceUrl}/${birthday.elasticId}`,
+        `${this.resourceUrl}/${birthday.elasticId!}`,
         copy,
         { observe: "response" }
       )

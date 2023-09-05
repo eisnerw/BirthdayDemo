@@ -118,7 +118,6 @@
       }
     }
   },
-  "defaultProject": "birthday-demo",
   "cli": {
     "packageManager": "npm",
     "analytics": false

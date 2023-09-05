@@ -9,7 +9,7 @@ import { ProfileService } from "app/layouts/profiles/profile.service";
 
 @Component({
   selector: "jhi-navbar",
-  templateUrl: "./navbar.component.html",
+  templateUrl: "./navbar.compxxonent.html",
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {

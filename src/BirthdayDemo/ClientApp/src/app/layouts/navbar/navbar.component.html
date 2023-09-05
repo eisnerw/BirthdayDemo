@@ -60,7 +60,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="category"
+              routerLink="/category"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
               (click)="collapseNavbar()"
@@ -72,7 +72,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="selector"
+              routerLink="/selector"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
               (click)="collapseNavbar()"
@@ -84,7 +84,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="birthday"
+              routerLink="/birthday"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
               (click)="collapseNavbar()"
@@ -96,7 +96,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="ruleset"
+              routerLink="/ruleset"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
               (click)="collapseNavbar()"
@@ -132,7 +132,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="admin/user-management"
+              routerLink="/admin/user-management"
               routerLinkActive="active"
               (click)="collapseNavbar()"
             >
@@ -143,7 +143,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="admin/metrics"
+              routerLink="/admin/metrics"
               routerLinkActive="active"
               (click)="collapseNavbar()"
             >
@@ -154,7 +154,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="admin/health"
+              routerLink="/admin/health"
               routerLinkActive="active"
               (click)="collapseNavbar()"
             >
@@ -165,7 +165,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="admin/configuration"
+              routerLink="/admin/configuration"
               routerLinkActive="active"
               (click)="collapseNavbar()"
             >
@@ -176,7 +176,7 @@
           <li>
             <a
               class="dropdown-item"
-              routerLink="admin/logs"
+              routerLink="/admin/logs"
               routerLinkActive="active"
               (click)="collapseNavbar()"
             >
@@ -187,7 +187,7 @@
           <li *ngIf="openAPIEnabled">
             <a
               class="dropdown-item"
-              routerLink="admin/docs"
+              routerLink="/admin/docs"
               routerLinkActive="active"
               (click)="collapseNavbar()"
             >
@@ -243,7 +243,7 @@
           <li *ngSwitchCase="true">
             <a
               class="dropdown-item"
-              routerLink="account/settings"
+              routerLink="/account/settings"
               routerLinkActive="active"
               (click)="collapseNavbar()"
               data-cy="settings"
@@ -255,7 +255,7 @@
           <li *ngSwitchCase="true">
             <a
               class="dropdown-item"
-              routerLink="account/password"
+              routerLink="/account/password"
               routerLinkActive="active"
               (click)="collapseNavbar()"
               data-cy="passwordItem"
@@ -289,7 +289,7 @@
           <li *ngSwitchCase="false">
             <a
               class="dropdown-item"
-              routerLink="account/register"
+              routerLink="/account/register"
               routerLinkActive="active"
               (click)="collapseNavbar()"
               data-cy="register"

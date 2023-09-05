@@ -5,12 +5,6 @@ import { RouterModule } from "@angular/router";
   imports: [
     RouterModule.forChild([
       {
-        path: "category",
-        data: { pageTitle: "Categories" },
-        loadChildren: () =>
-          import("./category/category.module").then((m) => m.CategoryModule),
-      },
-      {
         path: "birthday",
         data: { pageTitle: "Birthdays", defaultSort: "id,asc" },
         loadChildren: () =>

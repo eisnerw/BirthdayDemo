@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [CommonModule, SuperTableModule, CalendarModule, ContextMenuModule, MessagesModule, ChipsModule, ConfirmPopupModule, TooltipModule, ScrollTopModule, MenuModule, DialogModule, BirthdayQueryBuilderModule, EditableMultiSelectModule, FormsModule],
+    imports: [CommonModule, SuperTableModule, CalendarModule, ContextMenuModule, MessagesModule, ChipsModule, ConfirmPopupModule, TooltipModule, ScrollTopModule, MenuModule, DialogModule, /* BirthdayQueryBuilderModule,   */ EditableMultiSelectModule, FormsModule],
     declarations: [BirthdayTableComponent, /* , BirthdayUpdateComponent, BirthdayDeleteDialogComponent*/],
     exports: [BirthdayTableComponent]
 })

@@ -968,8 +968,8 @@ export class SuperCellEditor extends CellEditor implements AfterContentInit {
 })
 export class SuperTableRadioButton extends TableRadioButton  {
     
-    constructor(public dt: SuperTable, public tableService: TableService, public cd: ChangeDetectorRef) {
-        super(dt, tableService, cd);
+    constructor(public dt: SuperTable, public cd: ChangeDetectorRef) {
+        super(dt, cd);
     }
 
     ngOnInit() {

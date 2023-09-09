@@ -21,7 +21,7 @@ import { BirthdayQueryBuilderModule } from './search/birthday-query-builder.modu
 import { BirthdayQueryParserService } from './search/birthday-query-parser.service';
 
 @NgModule({
-    imports: [SharedModule, BirthdayRoutingModule, SuperTableModule, CalendarModule, ContextMenuModule, MessagesModule, ChipsModule, ConfirmPopupModule, TooltipModule, ScrollTopModule, MenuModule, DialogModule, BirthdayQueryBuilderModule, InputTextModule],
+    imports: [SharedModule, BirthdayRoutingModule, SuperTableModule, CalendarModule, ContextMenuModule, MessagesModule, ChipsModule, ConfirmPopupModule, TooltipModule, ScrollTopModule, MenuModule, DialogModule, /*BirthdayQueryBuilderModule,*/ InputTextModule],
     providers: [BirthdayQueryParserService],
     declarations: [
         BirthdayComponent,

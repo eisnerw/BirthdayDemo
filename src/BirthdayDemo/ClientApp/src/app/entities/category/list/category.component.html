@@ -2,7 +2,7 @@
   <h2 id="page-heading" *ngIf="!hideHeader">
       <span>Categories</span><span style="font-size: 16px;font-weight: 700;">... </span>
       <span style="cursor:pointer;">
-        <span aria-label="Search" class="pi pi-search" (click)="showSearchDialog(queryBuilder)"></span>
+        <!--span aria-label="Search" class="pi pi-search" (click)="showSearchDialog(queryBuilder)"></span-->
       </span>
       <span *ngIf="!editingQuery">
         <span *ngIf="searchQueryAsString.length == 0" class="p-component" style="font-weight: 100; padding-top: 10px; margin-left: -6px;" (click)="editQuery()"><i>click search icon for widgit or click to edit</i></span>
@@ -39,15 +39,15 @@
       [draggable]="true" 
       [resizable]="false"
     >
-      <jhi-birthday-query-builder #queryBuilder [rulesetMap]="rulesetMap" [optionsMap] = "optionsMap"></jhi-birthday-query-builder>
+      <!--jhi-birthday-query-builder #queryBuilder [rulesetMap]="rulesetMap" [optionsMap] = "optionsMap"></jhi-birthday-query-builder-->
       <div class="modal-footer">
         <button aria-label="Cancel" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelSearchDialog()">
             <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-        <button  (click)="okSearchDialog(queryBuilder, queryEditbox)" type="Submit" aria-label="submit" class="btn btn-primary" [disabled]="!queryBuilder.queryIsValid() || queryBuilder.containsDirtyNamedQueries()">
+        <!--button  (click)="okSearchDialog(queryBuilder, queryEditbox)" type="Submit" aria-label="submit" class="btn btn-primary" [disabled]="!queryBuilder.queryIsValid() || queryBuilder.containsDirtyNamedQueries()">
           <fa-icon [icon]="faCheck"></fa-icon>&nbsp;
-        </button>
+        </button-->
       </div>
     </p-dialog>
   </h2>

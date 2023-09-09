@@ -477,9 +477,10 @@ export class CategoryComponent implements OnInit {
                 this.storedQueryBeingRenamed = this.rulesetMap.get(query.name) as IQuery;
               }
               q = this.rulesetMap.get(r.name as string) as IQuery;
+              /*
               if (BirthdayQueryBuilderComponent.containsNamedRule(q, query.name as string)){
                 this.namedQueryUsedIn.push(r.name as string);
-              }
+              } */
             })
             this.bRenamingQuery = true;
             this.queryToRename = query.name;
@@ -502,9 +503,10 @@ export class CategoryComponent implements OnInit {
                 this.storedQueryBeingDeleted = this.rulesetMap.get(query.name) as IQuery;
               }
               q = this.rulesetMap.get(r.name as string) as IQuery;
+              /*
               if (BirthdayQueryBuilderComponent.containsNamedRule(q, query.name as string)){
                 this.namedQueryUsedIn.push(r.name as string);
-              }
+              } */
             })
             this.bDeletingQuery = true;
             this.queryToDelete = query.name;

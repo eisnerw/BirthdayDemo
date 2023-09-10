@@ -1,8 +1,8 @@
 /* eslint-disable */ 
 
 import { NgModule, Component, HostListener, OnInit, OnDestroy, AfterViewInit, Directive, Optional, AfterContentInit,
-    Input, Output, EventEmitter, ElementRef, NgZone, ChangeDetectorRef, OnChanges, ChangeDetectionStrategy, ViewEncapsulation, Renderer2} from '@angular/core';
-import { CommonModule } from '@angular/common';
+    Input, Output, EventEmitter, ElementRef, NgZone, ChangeDetectorRef, OnChanges, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, Inject, PLATFORM_ID} from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule, PrimeNGConfig, FilterService, OverlayService } from 'primeng/api';
 import { PaginatorModule } from 'primeng/paginator';
@@ -465,9 +465,9 @@ export class SuperTable extends Table implements OnInit, AfterViewInit, AfterCon
     children: SuperTable[] = [];
 
     filteringGlobal = false;
-
-    constructor(public el: ElementRef, public zone: NgZone, public tableService: TableService, public cd: ChangeDetectorRef, public filterService: FilterService, public overlayService: OverlayService) {
-        super(el, zone, tableService, cd, filterService, overlayService);
+    
+    constructor (@Inject(DOCUMENT) document: Document, @Inject(PLATFORM_ID) platformId: any, renderer: Renderer2, el: ElementRef, zone: NgZone, tableService: TableService, cd: ChangeDetectorRef, filterService: FilterService, overlayService: OverlayService){
+        super(document, platformId, renderer, el, zone, tableService, cd, filterService, overlayService,);
     }
 
     @Input() get value(): any[] {
@@ -821,8 +821,8 @@ export class SuperRowToggler extends RowToggler {
 })
 export class SuperResizableColumn extends ResizableColumn implements AfterViewInit, OnDestroy {
 
-    constructor(public dt: SuperTable, public el: ElementRef, public zone: NgZone) { 
-        super(dt, el, zone);
+    constructor(@Inject(DOCUMENT) document: Document, @Inject(PLATFORM_ID) platformId: any, renderer: Renderer2, dt: SuperTable, el: ElementRef, zone: NgZone) { 
+        super(document, platformId, renderer, dt, el, zone);
     }
 
     ngAfterViewInit() {
@@ -838,8 +838,8 @@ export class SuperResizableColumn extends ResizableColumn implements AfterViewIn
     selector: '[super-ReorderableColumn]'
 })
 export class SuperReorderableColumn extends ReorderableColumn implements AfterViewInit, OnDestroy {
-    constructor(public dt: SuperTable, public el: ElementRef, public zone: NgZone) { 
-        super(dt, el, zone);
+    constructor(@Inject(PLATFORM_ID) platformId: any, renderer: Renderer2, dt: SuperTable, el: ElementRef, zone: NgZone) { 
+        super(platformId, renderer, dt, el, zone);
     }
 
     ngAfterViewInit() {
@@ -1074,8 +1074,8 @@ export class SuperReorderableRow extends ReorderableRow implements AfterViewInit
 
     @Input("super-reorderable-row") index= 0;
 
-    constructor(public dt: SuperTable, public el: ElementRef, public zone: NgZone) {
-        super (dt, el, zone);
+    constructor(renderer: Renderer2, dt: SuperTable, el: ElementRef, zone: NgZone) {
+        super (renderer, dt, el, zone);
     }
 
     ngAfterViewInit() {
@@ -1189,8 +1189,8 @@ export class SuperColumnFilterFormElement extends ColumnFilterFormElement implem
     encapsulation: ViewEncapsulation.None
 })
 export class SuperColumnFilter extends ColumnFilter implements AfterContentInit {
-    constructor(public el: ElementRef, public dt: SuperTable, public renderer: Renderer2, public config: PrimeNGConfig, public overlayService: OverlayService) {
-        super(el, dt, renderer, config, overlayService);
+    constructor(@Inject(DOCUMENT) document: Document, el: ElementRef, dt: SuperTable, renderer: Renderer2, config: PrimeNGConfig, overlayService: OverlayService) {
+        super(document, el, dt, renderer, config, overlayService,);
     }
 
     ngAfterContentInit() {

@@ -1,7 +1,7 @@
 /* eslint-disable */ 
 import { Component, OnInit, ChangeDetectorRef, Renderer2, Input } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
-import { QueryBuilderConfig, QueryBuilderComponent, RuleSet, Option } from "angular2-query-builder";
+import { QueryBuilderConfig, QueryBuilderComponent, RuleSet, Option } from "ngx-angular-query-builder";
 import { Directive } from '@angular/core';
 import { AbstractControl, NG_ASYNC_VALIDATORS, ValidationErrors, AsyncValidator } from '@angular/forms';
 import { RulesetService } from '../../ruleset/service/ruleset.service';

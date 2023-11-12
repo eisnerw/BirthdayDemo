@@ -23,7 +23,7 @@ import { BirthdayQueryValidatorDirectiveModule } from '../birthday/search/birthd
 import { RulesetRenameValidatorDirective } from './list/category.component';
 
 @NgModule({
-    imports: [SharedModule, CategoryRoutingModule, SuperTableModule, CalendarModule, ContextMenuModule, MessagesModule, ChipsModule, ConfirmPopupModule, TooltipModule, ScrollTopModule, MenuModule, DialogModule, BirthdayTableModule, /*BirthdayQueryBuilderModule, */ EditableMultiSelectModule, DropdownModule, BirthdayQueryValidatorDirectiveModule],
+    imports: [SharedModule, CategoryRoutingModule, SuperTableModule, CalendarModule, ContextMenuModule, MessagesModule, ChipsModule, ConfirmPopupModule, TooltipModule, ScrollTopModule, MenuModule, DialogModule, BirthdayTableModule, BirthdayQueryBuilderModule, EditableMultiSelectModule, DropdownModule, BirthdayQueryValidatorDirectiveModule],
     declarations: [
         CategoryComponent,
         CategoryDetailComponent,

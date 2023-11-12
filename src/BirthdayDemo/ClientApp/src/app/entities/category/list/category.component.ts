@@ -31,7 +31,7 @@ import { SuperTable } from '../../../shared/super-table';
 import { BirthdayQueryParserService, IQuery, IQueryRule } from '../../birthday/search/birthday-query-parser.service';
 import { BirthdayQueryBuilderComponent } from '../../birthday/search/birthday-query-builder.component';
 import { ISelector } from '../../selector/selector.model';
-import { Option } from "angular2-query-builder";
+import { Option } from "ngx-angular-query-builder";
 
 interface IView {
   name: string,

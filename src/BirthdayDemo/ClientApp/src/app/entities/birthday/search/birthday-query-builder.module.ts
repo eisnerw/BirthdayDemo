@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { QueryBuilderModule } from 'angular2-query-builder';
+import { NgxAngularQueryBuilderModule } from "ngx-angular-query-builder";
 import { CommonModule } from '@angular/common';
 import { BirthdayQueryBuilderComponent } from './birthday-query-builder.component';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,7 +13,7 @@ import { BirthdayQueryValidatorDirectiveModule } from './birthday-query-validato
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, QueryBuilderModule, InputTextModule, DialogModule, DropdownModule, ButtonModule, FontAwesomeModule, BirthdayQueryValidatorDirectiveModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxAngularQueryBuilderModule , InputTextModule, DialogModule, DropdownModule, ButtonModule, FontAwesomeModule, BirthdayQueryValidatorDirectiveModule],
   declarations: [BirthdayQueryBuilderComponent, RulesetNameValidatorDirective],
   bootstrap: [BirthdayQueryBuilderComponent],
   exports: [BirthdayQueryBuilderComponent]

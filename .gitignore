@@ -6,6 +6,8 @@
 *.tfstate
 *.tfstate.*
 
+*.pack
+
 # Crash log files
 crash.log
 
@@ -68,6 +70,7 @@ npm-debug.log.*
 !**/wwwroot/favicon.ico
 !**/wwwroot/robot.txt
 !**/wwwroot/manifest.webapp
+!**/ClientApp/target/webpack/default-development/
 
 # User-specific files
 *.suo
@@ -334,3 +337,14 @@ src/BirthdayDemo/ClientApp/target/webpack/default-development/index.pack
 src/BirthdayDemo/ClientApp/target/webpack/default-development/index.pack.old
 src/BirthdayDemo/ClientApp/target/**
 
+src/BirthdayDemo/ClientApp/target/webpack/default-development/0.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/1.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/2.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/3.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/4.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/5.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/6.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/7.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/index.pack
+src/BirthdayDemo/ClientApp/target/webpack/default-development/index.pack.old
+src/BirthdayDemo/ClientApp/target/webpack/default-development/0.pack

@@ -1,8 +1,10 @@
 {
   "dependencies": {
-    "@angular/cli": "^17.3.11",
+    "@angular/cli": "^18.2.10",
     "generator-jhipster": "^7.1.0",
-    "tsc": "^2.0.4",
-    "typescript": "^4.8.4"
+    "tsc": "^2.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
   }
 }

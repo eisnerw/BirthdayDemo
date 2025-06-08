@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>birthday-demo</AssemblyName>
     <Version>0.0.1</Version>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>BirthdayDemo</RootNamespace>
@@ -77,7 +77,7 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
   </Target>
 
-  <Target Name="RunWebPack" BeforeTargets="Build" DependsOnTargets="NpmInstall">
+  <Target Name="RunWebPack" BeforeTargets="Build" DependsOnTargets="NpmInstall" Condition="'$(SkipClientBuild)' != 'true'">
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run webapp:build" IgnoreStandardErrorWarningFormat="true" Condition="'$(Configuration)'=='Debug'" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run webapp:prod" IgnoreStandardErrorWarningFormat="true" Condition="'$(Configuration)'=='Release'" />
   </Target>

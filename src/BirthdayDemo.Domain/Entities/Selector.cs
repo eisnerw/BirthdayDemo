@@ -16,8 +16,6 @@ namespace BirthdayDemo.Domain
         public string RulesetName { get; set; }
         public string Action { get; set; }
         public string ActionParameter { get; set; }
-        public string Descriptoin { get; set; }
-
         public string Description { get; set; }
 
         // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
